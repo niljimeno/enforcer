@@ -18,4 +18,5 @@ void handleKeyPress(XEvent *ev) {
 void handleMapNotify(XEvent *ev) {
     Window w = ev->xmaprequest.window;
     createWindow(w);
+    resizeWindows();
 }

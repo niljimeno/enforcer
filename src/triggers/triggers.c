@@ -1,7 +1,12 @@
 #include "process.c"
 #include "handlers.c"
 
-void bindTriggers() {
+/* run initial scripts */
+void onLoad() {
+    sh("./scripts/init.sh");
+}
+
+void loadTriggers() {
     /* bind key presses */
     XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("q")), modkey,
             root, True, GrabModeAsync, GrabModeAsync);
@@ -23,11 +28,5 @@ void bindTriggers() {
     /* add event handlers */
     eventTable[KeyPress] = handleKeyPress;
     eventTable[MapNotify] = handleMapNotify;
+    onLoad();
 }
-
-/*
-example event:
-void hdl_destroy(XEvent *ev) {
-    spawnDaemon("redshift -O 3000 -P");
-}
-*/

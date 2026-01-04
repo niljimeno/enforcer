@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <strings.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /* values and general use */
 #include "data/data.c"
@@ -25,7 +26,7 @@ int setup() {
     if(!(display = XOpenDisplay(0x0))) return 1;
     root = DefaultRootWindow(display);
     setWindowTypes(display);
-    bindTriggers();
+    loadTriggers();
     return 0;
 }
 

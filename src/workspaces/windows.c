@@ -1,4 +1,16 @@
+struct WindowData {
+    Bool shouldFloat;
+};
+
+void resizeWindow(Window win, int x, int y, int w, int h) {
+    XMoveResizeWindow(display, win, x, y, w, h);
+}
+
 void closeWindow(Window w) {
+    if (w == 0) {
+        return;
+    }
+
     Atom *protocols;
     int n_protocols;
 
@@ -26,18 +38,21 @@ void closeWindow(Window w) {
     XKillClient(display, w);
 }
 
-void createWindow(Window w) {
+
+struct WindowData initialiseWindow(Window w) {
     long supplied_ret;
     XSizeHints size_hints;
-
     XSetInputFocus(display, w, RevertToPointerRoot, CurrentTime);
+
+    struct WindowData winData;
+    winData.shouldFloat = false;
 
     Atom type;
     int format;
     unsigned long n_items, after;
     Atom *types = NULL;
-    Bool should_float = False;
 
+    /* check for unusal types */
     if (XGetWindowProperty(display, w, _NET_WM_WINDOW_TYPE, 0, 8, False, XA_ATOM, &type, &format,
                            &n_items, &after, (unsigned char **)&types) == Success && types) {
 
@@ -45,7 +60,7 @@ void createWindow(Window w) {
             if (types[i] == _NET_WM_WINDOW_TYPE_DOCK) {
                 XFree(types);
                 XMapWindow(display, w);
-                return;
+                return winData;
             }
 
             if (types[i] == _NET_WM_WINDOW_TYPE_UTILITY ||
@@ -58,19 +73,20 @@ void createWindow(Window w) {
                 types[i] == _NET_WM_WINDOW_TYPE_DOCK ||
                 types[i] == _NET_WM_WINDOW_TYPE_TOOLTIP ||
                 types[i] == _NET_WM_WINDOW_TYPE_NOTIFICATION) {
-                should_float = True;
+                winData.shouldFloat = True;
                 break;
             }
         }
         XFree(types);
     }
 
-    if (!should_float &&
+    /* check for fixed size windows */
+    if (!winData.shouldFloat &&
         XGetWMNormalHints(display, w, &size_hints, &supplied_ret) &&
         (size_hints.flags & PMinSize) && (size_hints.flags & PMaxSize) &&
         size_hints.min_width == size_hints.max_width &&
         size_hints.min_height == size_hints.max_height) {
-        should_float = True;
+        winData.shouldFloat = True;
     }
 
     Atom net_wm_allowed_actions = XInternAtom(display, "_NET_WM_ALLOWED_ACTIONS", False);
@@ -79,16 +95,17 @@ void createWindow(Window w) {
     unsigned long nitems, bytes_after;
     unsigned char *data;
 
-    if (!should_float) {
+    // check i resizing is allowed??? i think??
+    if (!winData.shouldFloat) {
     if (XGetWindowProperty(display, w, net_wm_allowed_actions, 0, 1024, False, AnyPropertyType,
             &actual_type, &actual_format, &nitems, &bytes_after, &data) == Success) {
         if (actual_type != None && data != NULL) {
             Atom *actions = (Atom *)data;
             for (unsigned long i = 0; i < nitems; i++) {
                 if (actions[i] == XInternAtom(display, "_NET_WM_ACTION_RESIZE", False)) {
-                    should_float = True;
+                    winData.shouldFloat = True;
                     XFree(data);
-                    return;
+                    return winData;
                 }
             }
         }
@@ -100,9 +117,9 @@ void createWindow(Window w) {
         printf("Window class: %s\n", class_hint->res_class);
         printf("Window name: %s\n", class_hint->res_name);
         if (strcmp(class_hint->res_name, "dmenu") == 0) {
-            should_float = True;
+            winData.shouldFloat = True;
         } else if (strcmp(class_hint->res_name, "libresprite") == 0) {
-            should_float = True;
+            winData.shouldFloat = True;
         }
     } else {
         printf("Failed to get window class hint\n");
@@ -110,13 +127,9 @@ void createWindow(Window w) {
     XFree(class_hint);
 
     Window transient;
-    if (!should_float && XGetTransientForHint(display, w, &transient)) {
-        should_float = True;
+    if (!winData.shouldFloat && XGetTransientForHint(display, w, &transient)) {
+        winData.shouldFloat = True;
     }
 
-    printf("window should float: %b\n", should_float);
-
-    if (!should_float) {
-        XMoveResizeWindow(display, w, 100, 100, 600, 600);
-    }
+    return winData;
 }
