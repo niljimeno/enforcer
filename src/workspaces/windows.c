@@ -26,52 +26,52 @@ void closeWindow(Window w) {
     XKillClient(display, w);
 }
 
-void handle_map_notify(XEvent *ev) {
+void createWindow(Window w) {
     long supplied_ret;
     XSizeHints size_hints;
 
-    Window w = ev->xmaprequest.window;
+    XSetInputFocus(display, w, RevertToPointerRoot, CurrentTime);
 
-	Atom type;
-	int format;
-	unsigned long n_items, after;
-	Atom *types = NULL;
-	Bool should_float = False;
+    Atom type;
+    int format;
+    unsigned long n_items, after;
+    Atom *types = NULL;
+    Bool should_float = False;
 
     if (XGetWindowProperty(display, w, _NET_WM_WINDOW_TYPE, 0, 8, False, XA_ATOM, &type, &format,
-    			           &n_items, &after, (unsigned char **)&types) == Success && types) {
+                           &n_items, &after, (unsigned char **)&types) == Success && types) {
 
-    	for (unsigned long i = 0; i < n_items; i++) {
-    		if (types[i] == _NET_WM_WINDOW_TYPE_DOCK) {
-    		    XFree(types);
-    		    XMapWindow(display, w);
-    		    return;
-    		}
+        for (unsigned long i = 0; i < n_items; i++) {
+            if (types[i] == _NET_WM_WINDOW_TYPE_DOCK) {
+                XFree(types);
+                XMapWindow(display, w);
+                return;
+            }
 
-    		if (types[i] == _NET_WM_WINDOW_TYPE_UTILITY ||
-    			types[i] == _NET_WM_WINDOW_TYPE_DIALOG  ||
-    			types[i] == _NET_WM_WINDOW_TYPE_TOOLBAR ||
-    			types[i] == _NET_WM_WINDOW_TYPE_SPLASH  ||
-    			types[i] == _NET_WM_WINDOW_TYPE_POPUP_MENU ||
-    			types[i] == _NET_WM_WINDOW_TYPE_DROPDOWN_MENU ||
-    			types[i] == _NET_WM_WINDOW_TYPE_MENU ||
-    			types[i] == _NET_WM_WINDOW_TYPE_DOCK ||
-    			types[i] == _NET_WM_WINDOW_TYPE_TOOLTIP ||
-    			types[i] == _NET_WM_WINDOW_TYPE_NOTIFICATION) {
-    			should_float = True;
-    			break;
-    		}
-    	}
-    	XFree(types);
-	}
+            if (types[i] == _NET_WM_WINDOW_TYPE_UTILITY ||
+                types[i] == _NET_WM_WINDOW_TYPE_DIALOG  ||
+                types[i] == _NET_WM_WINDOW_TYPE_TOOLBAR ||
+                types[i] == _NET_WM_WINDOW_TYPE_SPLASH  ||
+                types[i] == _NET_WM_WINDOW_TYPE_POPUP_MENU ||
+                types[i] == _NET_WM_WINDOW_TYPE_DROPDOWN_MENU ||
+                types[i] == _NET_WM_WINDOW_TYPE_MENU ||
+                types[i] == _NET_WM_WINDOW_TYPE_DOCK ||
+                types[i] == _NET_WM_WINDOW_TYPE_TOOLTIP ||
+                types[i] == _NET_WM_WINDOW_TYPE_NOTIFICATION) {
+                should_float = True;
+                break;
+            }
+        }
+        XFree(types);
+    }
 
     if (!should_float &&
         XGetWMNormalHints(display, w, &size_hints, &supplied_ret) &&
-		(size_hints.flags & PMinSize) && (size_hints.flags & PMaxSize) &&
-		size_hints.min_width == size_hints.max_width &&
-		size_hints.min_height == size_hints.max_height) {
-    	should_float = True;
-	}
+        (size_hints.flags & PMinSize) && (size_hints.flags & PMaxSize) &&
+        size_hints.min_width == size_hints.max_width &&
+        size_hints.min_height == size_hints.max_height) {
+        should_float = True;
+    }
 
     Atom net_wm_allowed_actions = XInternAtom(display, "_NET_WM_ALLOWED_ACTIONS", False);
     Atom actual_type;
@@ -79,7 +79,7 @@ void handle_map_notify(XEvent *ev) {
     unsigned long nitems, bytes_after;
     unsigned char *data;
 
-	if (!should_float) {
+    if (!should_float) {
     if (XGetWindowProperty(display, w, net_wm_allowed_actions, 0, 1024, False, AnyPropertyType,
             &actual_type, &actual_format, &nitems, &bytes_after, &data) == Success) {
         if (actual_type != None && data != NULL) {
@@ -109,14 +109,14 @@ void handle_map_notify(XEvent *ev) {
     }
     XFree(class_hint);
 
-	Window transient;
-	if (!should_float && XGetTransientForHint(display, w, &transient)) {
-		should_float = True;
-	}
+    Window transient;
+    if (!should_float && XGetTransientForHint(display, w, &transient)) {
+        should_float = True;
+    }
 
-	printf("window should float: %b\n", should_float);
+    printf("window should float: %b\n", should_float);
 
-	if (!should_float) {
-        XMoveResizeWindow(display, w, 200, 200, 1000, 800);
-	}
+    if (!should_float) {
+        XMoveResizeWindow(display, w, 100, 100, 600, 600);
+    }
 }

@@ -9,23 +9,33 @@
 #include <strings.h>
 #include <stdio.h>
 
-#include "config.h"
-#include "types.h"
+/* values and general use */
+#include "data/data.c"
 
+/* global values */
 Display * display;
 Window root;
-EventHandler eventTable[LASTEvent];
-void hdl_destroy(XEvent *ev);
 
-#include "windows.c"
-#include "actions.c"
+/* moving parts */
+#include "workspaces/workspaces.c"
+#include "triggers/triggers.c"
+#include "test.c"
 
-void hdl_destroy(XEvent *ev) {
-    spawn_daemon("redshift -O 3000 -P");
+int setup() {
+    if(!(display = XOpenDisplay(0x0))) return 1;
+    root = DefaultRootWindow(display);
+    setWindowTypes(display);
+    bindTriggers();
+    return 0;
 }
 
-int main(void)
+int main(int argc, char* args[])
 {
+    if (argc > 1 && strcmp("test",args[1]) == 0) {
+        test();
+        return 0;
+    }
+
     if (setup() != 0) return 1;
 
     XEvent ev;

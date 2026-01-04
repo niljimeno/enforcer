@@ -1,7 +1,6 @@
 #define XA_ATOM ((Atom) 4)
 
 typedef void (*EventHandler) (XEvent *);
-typedef int error;
 
 Atom _NET_WM_WINDOW_TYPE;
 Atom _NET_WM_WINDOW_TYPE_DOCK;
@@ -32,5 +31,7 @@ void setWindowTypes(Display *display) {
     _NET_WM_WINDOW_TYPE_TOOLTIP = XInternAtom(display, "_NET_WM_WINDOW_TYPE_TOOLTIP", False);
     _NET_WM_WINDOW_TYPE_NOTIFICATION = XInternAtom(display, "_NET_WM_WINDOW_TYPE_NOTIFICATION", False);
     _NET_WM_STATE_MODAL = XInternAtom(display, "_NET_WM_STATE_MODAL", False);
-	WM_DELETE_WINDOW = XInternAtom(display, "WM_DELETE_WINDOW", False);
+
+    WM_DELETE_WINDOW = XInternAtom(display, "WM_DELETE_WINDOW", False);
+    WM_PROTOCOLS =  XInternAtom(display, "WM_PROTOCOLS", False);
 }
