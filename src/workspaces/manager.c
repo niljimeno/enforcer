@@ -13,20 +13,16 @@ struct Workspace {
 struct Workspace workspace;
 int currentWorkspace = 0;
 
-void removeWorkspaceNode(Window w) {
-}
-
 struct Workspace* getCurrentWorkspace() {
     struct Workspace* lastWS = &workspace;
-    printf("start it!\n");
     for (int i=0; i<currentWorkspace; i++) {
-        printf("one cycle\n");
         lastWS = lastWS->next;
     }
 
     return lastWS;
 }
 
+/* Append a workspace at the end of the list */
 void createWorkspace() {
     struct Workspace* lastWS = &workspace;
     while (true) {
@@ -39,9 +35,7 @@ void createWorkspace() {
     lastWS->next = instance;
 }
 
-void createWorkspaceAt(int position) {
-}
-
+/* Initialise window with its correspondent node */
 void createWindow(Window w) {
     struct Workspace* currentWS = getCurrentWorkspace();
     struct Node* lastNode;
@@ -69,54 +63,7 @@ void createWindow(Window w) {
     }
 }
 
-void resizeWindows() {
-    int snum = DefaultScreen(display);
-    int width = DisplayWidth(display, snum);
-    int height = DisplayHeight(display, snum);
-
-    struct Node* node = (getCurrentWorkspace())->node;
-    if (node == NULL) return;
-
-    int i = 0;
-    while (true) {
-        ++i;
-        if (!(node->isFloating))
-            resizeWindow(node->window,
-                         50+(i*10),
-                         50+(i*10),
-                         width - 200,
-                         height - 200);
-        if (node->next == NULL) {
-            return;
-        }
-
-        node = node->next;
-    }
-}
-
-void closeLastNode() {
-    struct Workspace* currentWorkspace = getCurrentWorkspace();
-    struct Node* currentNode = currentWorkspace->node;
-    struct Node* previousNode = NULL;
-    if (currentNode == NULL) return;
-    while (true) {
-        if (currentNode->next == NULL) {
-            break;
-        }
-
-        previousNode = currentNode;
-        currentNode = currentNode->next;
-    }
-
-    closeWindow(currentNode->window);
-    free(currentNode);
-
-    if (previousNode == NULL)
-        currentWorkspace->node = NULL;
-    else
-        previousNode->next = NULL;
-}
-
+/* Changes focus for the last window in the workspace */
 void setFocusBack() {
     struct Workspace* currentWorkspace = getCurrentWorkspace();
     struct Node* lastNode = currentWorkspace->node;
@@ -129,14 +76,15 @@ void setFocusBack() {
         lastNode = lastNode->next;
     }
 
-    if (lastNode->window == NULL) {
-        printf("bad window");
+    if (lastNode->window == 0) {
+        printf("bad window\n");
         return;
     }
 
     XSetInputFocus(display, lastNode->window, RevertToPointerRoot, CurrentTime);
 }
 
+/* remove Node (not window) */
 void removeNode(Window w) {
     struct Workspace* currentWorkspace = getCurrentWorkspace();
     struct Node* currentNode = currentWorkspace->node;
@@ -163,6 +111,7 @@ void removeNode(Window w) {
     setFocusBack();
 }
 
+/* remove window and its node */
 void removeWindow(Window w) {
     struct Workspace* currentWorkspace = getCurrentWorkspace();
     struct Node* currentNode = currentWorkspace->node;
@@ -194,6 +143,32 @@ void removeWindow(Window w) {
 void closeFocusedWindow() {
     Window w = getCurrentWindow();
     removeWindow(w);
+}
+
+/* apply resizing to all windows in the workspace */
+void resizeWindows() {
+    int snum = DefaultScreen(display);
+    int width = DisplayWidth(display, snum);
+    int height = DisplayHeight(display, snum);
+
+    struct Node* node = (getCurrentWorkspace())->node;
+    if (node == NULL) return;
+
+    int i = 0;
+    while (true) {
+        ++i;
+        if (!(node->isFloating))
+            resizeWindow(node->window,
+                         50+(i*10),
+                         50+(i*10),
+                         width - 200,
+                         height - 200);
+        if (node->next == NULL) {
+            return;
+        }
+
+        node = node->next;
+    }
 }
 
 void setUpWorkspaces() {
