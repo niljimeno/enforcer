@@ -80,7 +80,12 @@ void resizeWindows() {
     int i = 0;
     while (true) {
         ++i;
-        resizeWindow(node->window, 50+(i*10), 50+(i*10), width - 200, height - 200);
+        if (!(node->isFloating))
+            resizeWindow(node->window,
+                         50+(i*10),
+                         50+(i*10),
+                         width - 200,
+                         height - 200);
         if (node->next == NULL) {
             return;
         }
@@ -89,7 +94,7 @@ void resizeWindows() {
     }
 }
 
-void removeNode() {
+void closeLastNode() {
     struct Workspace* currentWorkspace = getCurrentWorkspace();
     struct Node* currentNode = currentWorkspace->node;
     struct Node* previousNode = NULL;
@@ -110,6 +115,85 @@ void removeNode() {
         currentWorkspace->node = NULL;
     else
         previousNode->next = NULL;
+}
+
+void setFocusBack() {
+    struct Workspace* currentWorkspace = getCurrentWorkspace();
+    struct Node* lastNode = currentWorkspace->node;
+    if (lastNode == NULL) return;
+    while (true) {
+        if (lastNode->next == NULL) {
+            break;
+        }
+
+        lastNode = lastNode->next;
+    }
+
+    if (lastNode->window == NULL) {
+        printf("bad window");
+        return;
+    }
+
+    XSetInputFocus(display, lastNode->window, RevertToPointerRoot, CurrentTime);
+}
+
+void removeNode(Window w) {
+    struct Workspace* currentWorkspace = getCurrentWorkspace();
+    struct Node* currentNode = currentWorkspace->node;
+    struct Node* previousNode = NULL;
+    if (currentNode == NULL) return;
+    while (true) {
+        if (currentNode->window == w) {
+            break;
+        }
+        if (currentNode->next == NULL) {
+            return;
+        }
+
+        previousNode = currentNode;
+        currentNode = currentNode->next;
+    }
+
+    if (previousNode == NULL)
+        currentWorkspace->node = currentNode->next;
+    else
+        previousNode->next = currentNode->next;
+
+    free(currentNode);
+    setFocusBack();
+}
+
+void removeWindow(Window w) {
+    struct Workspace* currentWorkspace = getCurrentWorkspace();
+    struct Node* currentNode = currentWorkspace->node;
+    struct Node* previousNode = NULL;
+    if (currentNode == NULL) return;
+    while (true) {
+        if (currentNode->window == w) {
+            break;
+        }
+        if (currentNode->next == NULL) {
+            return;
+        }
+
+        previousNode = currentNode;
+        currentNode = currentNode->next;
+    }
+
+    if (previousNode == NULL)
+        currentWorkspace->node = currentNode->next;
+    else
+        previousNode->next = currentNode->next;
+
+    closeWindow(currentNode->window);
+    free(currentNode);
+
+    setFocusBack();
+}
+
+void closeFocusedWindow() {
+    Window w = getCurrentWindow();
+    removeWindow(w);
 }
 
 void setUpWorkspaces() {

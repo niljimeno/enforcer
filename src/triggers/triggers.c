@@ -28,5 +28,6 @@ void loadTriggers() {
     /* add event handlers */
     eventTable[KeyPress] = handleKeyPress;
     eventTable[MapNotify] = handleMapNotify;
+    eventTable[DestroyNotify] = handleDestroyNotify;
     onLoad();
 }

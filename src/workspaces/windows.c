@@ -133,3 +133,10 @@ struct WindowData initialiseWindow(Window w) {
 
     return winData;
 }
+
+Window getCurrentWindow() {
+    Window w;
+    int revert;
+    XGetInputFocus(display, &w, &revert);
+    return w;
+}

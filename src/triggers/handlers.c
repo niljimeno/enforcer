@@ -11,7 +11,7 @@ void handleKeyPress(XEvent *ev) {
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("p"))) {
         sh("dmenu_run");
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("c"))) {
-        removeNode();
+        closeFocusedWindow();
     }
 }
 
@@ -19,4 +19,9 @@ void handleMapNotify(XEvent *ev) {
     Window w = ev->xmaprequest.window;
     createWindow(w);
     resizeWindows();
+}
+
+void handleDestroyNotify(XEvent *ev) {
+    Window w = ev->xdestroywindow.window;
+    removeNode(w);
 }

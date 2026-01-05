@@ -27,6 +27,7 @@ int setup() {
     root = DefaultRootWindow(display);
     setWindowTypes(display);
     loadTriggers();
+
     return 0;
 }
 
