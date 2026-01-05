@@ -69,12 +69,49 @@ void createWindow(Window w) {
     }
 }
 
+void resizeWindows() {
+    int snum = DefaultScreen(display);
+    int width = DisplayWidth(display, snum);
+    int height = DisplayHeight(display, snum);
+
+    struct Node* node = (getCurrentWorkspace())->node;
+    if (node == NULL) return;
+
+    int i = 0;
+    while (true) {
+        ++i;
+        resizeWindow(node->window, 50+(i*10), 50+(i*10), width - 200, height - 200);
+        if (node->next == NULL) {
+            return;
+        }
+
+        node = node->next;
+    }
+}
+
+void removeNode() {
+    struct Workspace* currentWorkspace = getCurrentWorkspace();
+    struct Node* currentNode = currentWorkspace->node;
+    struct Node* previousNode = NULL;
+    if (currentNode == NULL) return;
+    while (true) {
+        if (currentNode->next == NULL) {
+            break;
+        }
+
+        previousNode = currentNode;
+        currentNode = currentNode->next;
+    }
+
+    closeWindow(currentNode->window);
+    free(currentNode);
+
+    if (previousNode == NULL)
+        currentWorkspace->node = NULL;
+    else
+        previousNode->next = NULL;
+}
+
 void setUpWorkspaces() {
-    createWorkspace();
-    createWorkspace();
-    createWorkspace();
-    createWorkspace();
-    createWorkspace();
-    createWorkspace();
     createWorkspace();
 }

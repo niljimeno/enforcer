@@ -11,7 +11,7 @@ void handleKeyPress(XEvent *ev) {
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("p"))) {
         sh("dmenu_run");
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("c"))) {
-        closeWindow(ev->xkey.subwindow);
+        removeNode();
     }
 }
 
