@@ -19,4 +19,4 @@ test:
 	./build/enforcer test
 
 clean:
-	rm -f enforcer
+	rm -f ./build/enforcer
