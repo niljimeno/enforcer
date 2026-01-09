@@ -23,6 +23,7 @@ Window root;
 #include "test.c"
 
 int setup() {
+    XInitThreads();
     if(!(display = XOpenDisplay(0x0))) return 1;
     root = DefaultRootWindow(display);
     setWindowTypes(display);

@@ -1,3 +1,59 @@
+/* apply resizing to all windows in the workspace */
+void resizeWindows() {
+    int gap = 15;
+
+    int screen = DefaultScreen(display);
+    int width = DisplayWidth(display, screen)-gap;
+    int height = DisplayHeight(display, screen)-gap;
+
+    struct Workspace* ws = getCurrentWorkspace();
+    struct Node* node = ws->node;
+    if (node == NULL) return;
+
+    int windowCount = 0;
+    while (node) {
+        if (!(node->isFloating) && node->isAlive)
+            ++windowCount;
+
+        node = node->next;
+    }
+
+
+    int columns = windowCount; // (windowCount > 1) ? 2 : 1;
+    int rows = 1; // (windowCount > 2) ? 2 : 1;
+
+    int csize = width/columns;
+    int rsize = height/rows;
+    printf("count: %d\n", windowCount);
+    printf("columns: %d\n", columns);
+    printf("colsize: %d\n", csize);
+
+    node = ws->node;
+
+    int i = 0;
+    while (node) {
+        printf("doing checks\n");
+        if (node->isFloating || !(node->isAlive)) {
+            node = node->next;
+            continue;
+        }
+        printf("finished checks\n");
+
+        printf("c: %d, ", csize);
+        printf("p: %d\n", csize*i);
+        resizeWindow(node->window,
+                     gap+(csize*i),
+                     gap,// (rsize*(rows > 1 ? ((i-2)%2) : 0)),
+                     csize-gap,
+                     rsize-gap);
+
+        node = node->next;
+        ++i;
+    }
+}
+
+
+/*
 struct Dimensions {
     int x;
     int y;
@@ -19,3 +75,44 @@ struct Placeholder* defaultPlaceholder() {
     p->dimensions.h = 200;
     return p;
 }
+
+struct Placeholder* getSizes(int windowCount) {
+    int screen = DefaultScreen(display);
+    int width = DisplayWidth(display, screen);
+    int height = DisplayHeight(display, screen);
+
+    int columns = 1;
+    int rows = 1;
+
+    if (windowCount > 1)
+        columns = 2;
+
+    if (windowCount > 2)
+        rows = 2;
+
+    int csize = width/columns;
+    int rsize = height/rows;
+
+    struct Placeholder* p = NULL;
+    struct Placeholder* last;
+
+    for (int i = 0; i<windowCount; ++i) {
+        if (p == NULL) {
+            p = malloc(sizeof(struct Placeholder));
+            last = p;
+        } else {
+            last->next = malloc(sizeof(struct Placeholder));
+        }
+
+        last->next = 0;
+        last->dimensions.x = 0+(csize*(i%2));
+        last->dimensions.y = 0+(rsize*(rows > 1 ? ((i-2)%2) : 0));
+        last->dimensions.w = csize;
+        last->dimensions.h = rsize;
+
+        last = p->next;
+    }
+
+    return p;
+}
+*/

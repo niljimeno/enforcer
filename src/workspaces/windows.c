@@ -1,5 +1,6 @@
 struct WindowData {
     Bool shouldFloat;
+    Bool isHelper;
 };
 
 void resizeWindow(Window win, int x, int y, int w, int h) {
@@ -58,6 +59,8 @@ struct WindowData initialiseWindow(Window w) {
             if (types[i] == _NET_WM_WINDOW_TYPE_DOCK) {
                 XFree(types);
                 XMapWindow(display, w);
+                winData.shouldFloat = true;
+                printf("fast quit\n");
                 return winData;
             }
 
@@ -71,7 +74,8 @@ struct WindowData initialiseWindow(Window w) {
                 types[i] == _NET_WM_WINDOW_TYPE_DOCK ||
                 types[i] == _NET_WM_WINDOW_TYPE_TOOLTIP ||
                 types[i] == _NET_WM_WINDOW_TYPE_NOTIFICATION) {
-                winData.shouldFloat = True;
+                printf("is internal\n");
+                winData.shouldFloat = true;
                 break;
             }
         }
@@ -79,17 +83,16 @@ struct WindowData initialiseWindow(Window w) {
     }
 
     /* check for fixed size windows */
+    /*
     if (!winData.shouldFloat &&
         XGetWMNormalHints(display, w, &size_hints, &supplied_ret) &&
         (size_hints.flags & PMinSize) && (size_hints.flags & PMaxSize) &&
         size_hints.min_width == size_hints.max_width &&
         size_hints.min_height == size_hints.max_height) {
+        printf("is floating\n");
         winData.shouldFloat = True;
     }
 
-    XWindowAttributes wa;
-    XGetWindowAttributes(display, w, &wa);
-    if (wa.override_redirect) winData.shouldFloat = True;
 
     XClassHint *class_hint = XAllocClassHint();
     if (XGetClassHint(display, w, class_hint)) {
@@ -102,8 +105,10 @@ struct WindowData initialiseWindow(Window w) {
 
     Window transient;
     if (!winData.shouldFloat && XGetTransientForHint(display, w, &transient)) {
+        printf("Is transient\n");
         winData.shouldFloat = True;
     }
+    */
 
     return winData;
 }

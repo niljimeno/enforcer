@@ -1,6 +1,8 @@
 /* run shell command */
 void sh(char *cmd) {
     if (fork() == 0) {
+        close(ConnectionNumber(display));
+        setsid();
         execvp(cmd, (char *[]){cmd, NULL});
     }
 }

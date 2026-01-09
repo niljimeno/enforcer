@@ -17,8 +17,16 @@ void handleKeyPress(XEvent *ev) {
 
 /* before mapping the window */
 void handleMapRequest(XEvent *ev) {
+    XSync(display, False);
     Window w = ev->xmaprequest.window;
-    createWindow(w);
+    if (nodeExists(w)) return;
+
+    struct WindowData winData = createWindow(w);
+    if (winData.shouldFloat) {
+        XMapWindow(display, w);
+        return;
+    }
+
     resizeWindows();
     XMapWindow(display, w);
     XSetInputFocus(display, w, RevertToPointerRoot, CurrentTime);
@@ -29,6 +37,11 @@ void handleMapNotify(XEvent *ev) {
 }
 
 void handleDestroyNotify(XEvent *ev) {
+    XSync(display, False);
+    printf("is null? %p\n", (void *) workspace.node);
     Window w = ev->xdestroywindow.window;
-    removeNode(w);
+    if (w && nodeExists(w)) {
+        removeNode(w);
+        restoreWorkspace();
+    }
 }
