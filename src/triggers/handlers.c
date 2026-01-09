@@ -15,10 +15,17 @@ void handleKeyPress(XEvent *ev) {
     }
 }
 
-void handleMapNotify(XEvent *ev) {
+/* before mapping the window */
+void handleMapRequest(XEvent *ev) {
     Window w = ev->xmaprequest.window;
     createWindow(w);
     resizeWindows();
+    XMapWindow(display, w);
+    XSetInputFocus(display, w, RevertToPointerRoot, CurrentTime);
+}
+
+/* after mapping the window */
+void handleMapNotify(XEvent *ev) {
 }
 
 void handleDestroyNotify(XEvent *ev) {

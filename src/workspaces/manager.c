@@ -8,6 +8,7 @@ struct Node {
 struct Workspace {
     struct Workspace* next;
     struct Node* node;
+    struct Placeholder* placeholder;
 };
 
 struct Workspace workspace;
@@ -28,7 +29,17 @@ void createWorkspace() {
         lastWS = lastWS->next;
 
     struct Workspace* instance = malloc(sizeof(struct Workspace));
+    instance->node = 0;
+    instance->placeholder = defaultPlaceholder();
     lastWS->next = instance;
+}
+
+void prepareWindow(Window w) {
+            resizeWindow(w,
+                         200,
+                         200,
+                         200,
+                         200);
 }
 
 /* Initialise window with its correspondent node */
@@ -38,6 +49,9 @@ void createWindow(Window w) {
 
     struct Node* instance = malloc(sizeof(struct Node));
     struct WindowData data = initialiseWindow(w);
+    if (!(instance->isFloating))
+        prepareWindow(w);
+
     instance->window = w;
     instance->isFloating = data.shouldFloat;
     instance->isAlive = true;

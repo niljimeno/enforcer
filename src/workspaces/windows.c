@@ -42,7 +42,6 @@ void closeWindow(Window w) {
 struct WindowData initialiseWindow(Window w) {
     long supplied_ret;
     XSizeHints size_hints;
-    XSetInputFocus(display, w, RevertToPointerRoot, CurrentTime);
 
     struct WindowData winData;
     winData.shouldFloat = false;

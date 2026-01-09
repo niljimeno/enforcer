@@ -18,7 +18,7 @@ void loadTriggers() {
             root, True, GrabModeAsync, GrabModeAsync);
             XGrabKey(display, XKeysymToKeycode(display, XK_Shift_L), modkey,
             root, True, GrabModeAsync, GrabModeAsync);
-    XSelectInput(display, root, SubstructureNotifyMask);
+    XSelectInput(display, root, SubstructureRedirectMask | SubstructureNotifyMask);
 
     /* fill the event table with dummies (nil) */
     for (int i = 0; i < LASTEvent; i++) {
@@ -27,6 +27,7 @@ void loadTriggers() {
 
     /* add event handlers */
     eventTable[KeyPress] = handleKeyPress;
+    eventTable[MapRequest] = handleMapRequest;
     eventTable[MapNotify] = handleMapNotify;
     eventTable[DestroyNotify] = handleDestroyNotify;
     onLoad();
