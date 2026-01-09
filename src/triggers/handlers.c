@@ -38,7 +38,6 @@ void handleMapNotify(XEvent *ev) {
 
 void handleDestroyNotify(XEvent *ev) {
     XSync(display, False);
-    printf("is null? %p\n", (void *) workspace.node);
     Window w = ev->xdestroywindow.window;
     if (w && nodeExists(w)) {
         removeNode(w);

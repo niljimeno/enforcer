@@ -3,7 +3,18 @@ Attempt at making a window manager,
 inspired by SXWM, Vox-WM, and Ratpoison.
 
 ## State:
-Completely unusable.
+Incredibly early version. Practically unusable.
+
+## Testing instructions
+Run `make init` to open a Xephyr environment,
+then `make run` to build and run the program.
+Change the init script at `scripts/init.sh`
+to change the background.
+
+## Usage
+- `Mod-enter`: open a new terminal (st)
+- `Mod-c`: close focused window
+- `Mod-Shift-Q`: close enforcer
 
 
 Wishlist:
