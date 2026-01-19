@@ -12,6 +12,10 @@ void handleKeyPress(XEvent *ev) {
         sh("dmenu_run");
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("c"))) {
         closeFocusedWindow();
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("j"))) {
+        changeFocus(+1);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("k"))) {
+        changeFocus(-1);
     }
 }
 

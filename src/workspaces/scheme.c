@@ -52,6 +52,64 @@ void resizeWindows() {
     }
 }
 
+void changeFocus(int step) {
+    printf("hello\n");
+
+    Window currentWindow = getCurrentWindow();
+
+    struct Workspace* ws = getCurrentWorkspace();
+    struct Node* lastNode = ws->node;
+    struct Node* lastValid = NULL;
+    struct Node* previousValid = NULL;
+    struct Node* newFocus = NULL;
+
+    printf("recieved %d\n", step);
+
+    if (lastNode == NULL) return;
+    while (lastNode) {
+        if (lastNode->window == currentWindow) {
+            if (step == -1) {
+                if (lastValid == NULL) {
+                    while (lastNode != NULL) {
+                        if (lastNode->isAlive) {
+                            previousValid = lastValid;
+                            lastValid = lastNode;
+                        }
+                        lastNode = lastNode->next;
+                    }
+                    newFocus = lastValid;
+                } else {
+                    newFocus = lastValid;
+                }
+            } else if (step == +1) {
+                if (lastNode->next == NULL) {
+                    newFocus = ws->node;
+                } else {
+                    newFocus = lastNode->next;
+                }
+            }
+
+            break;
+        }
+
+        if (lastNode->isAlive) {
+            previousValid = lastValid;
+            lastValid = lastNode;
+        }
+
+        lastNode = lastNode->next;
+    }
+
+    if (!(newFocus->isAlive)) {
+        return;
+    }
+
+    XSetInputFocus(display,
+                   newFocus->window,
+                   RevertToPointerRoot,
+                   CurrentTime);
+}
+
 
 /*
 struct Dimensions {

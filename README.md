@@ -15,6 +15,7 @@ to change the background.
 - `Mod-enter`: open a new terminal (st)
 - `Mod-c`: close focused window
 - `Mod-Shift-Q`: close enforcer
+- `Mod-j / Mod-k`: change focus
 
 
 Wishlist:

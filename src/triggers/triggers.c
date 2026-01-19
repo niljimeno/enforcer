@@ -14,6 +14,12 @@ void loadTriggers() {
             root, True, GrabModeAsync, GrabModeAsync);
     XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("c")), modkey,
             root, True, GrabModeAsync, GrabModeAsync);
+
+    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("j")), modkey,
+            root, True, GrabModeAsync, GrabModeAsync);
+    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("k")), modkey,
+            root, True, GrabModeAsync, GrabModeAsync);
+
     XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("Return")), modkey,
             root, True, GrabModeAsync, GrabModeAsync);
             XGrabKey(display, XKeysymToKeycode(display, XK_Shift_L), modkey,
