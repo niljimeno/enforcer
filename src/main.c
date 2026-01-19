@@ -44,7 +44,13 @@ int main(int argc, char* args[])
     XEvent ev;
     for(;;)
     {
+        printf("before XNextEvent\n");
+        fflush(stdout);
         XNextEvent(display, &ev);
+        printf("got event: %d\n", ev.type);
+        fflush(stdout);
+
+        // XNextEvent(display, &ev);
         if (ev.type >= 0 && ev.type < LASTEvent) {
             eventTable[ev.type](&ev);
         }

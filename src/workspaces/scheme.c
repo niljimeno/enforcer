@@ -1,5 +1,6 @@
 /* apply resizing to all windows in the workspace */
 void resizeWindows() {
+    printf("Initiate: resize windows\n");
     int gap = 15;
 
     int screen = DefaultScreen(display);
@@ -50,10 +51,11 @@ void resizeWindows() {
         node = node->next;
         ++i;
     }
+    printf("Terminate: resize windows\n");
 }
 
 void changeFocus(int step) {
-    printf("hello\n");
+    printf("Initiate: change focus\n");
 
     Window currentWindow = getCurrentWindow();
 
@@ -108,6 +110,8 @@ void changeFocus(int step) {
                    newFocus->window,
                    RevertToPointerRoot,
                    CurrentTime);
+
+    printf("Terminate: change focus\n");
 }
 
 

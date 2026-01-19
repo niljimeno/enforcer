@@ -2,7 +2,7 @@ struct Node {
     Window window;
     struct Node* next;
     bool isFloating;
-    bool isAlive;
+    bool isAlive; // if it's about to get closed
 };
 
 struct Workspace {
@@ -63,15 +63,21 @@ struct WindowData createWindow(Window w) {
 
 /* remove window and its node */
 void removeWindow(Window w) {
+    printf("Initialise: Remove window\n");
     struct Workspace* ws = getCurrentWorkspace();
     struct Node* currentNode = ws->node;
     struct Node* previousNode = NULL;
-    if (currentNode == NULL) return;
+    if (currentNode == NULL) {
+        printf("Terminate: Remove window (no initial node)\n");
+        return;
+    }
     while (true) {
         if (currentNode->window == w)
             break;
-        if (currentNode->next == NULL)
+        if (currentNode->next == NULL) {
+            printf("Terminate: Remove window (not found)\n");
             return;
+        }
 
         previousNode = currentNode;
         currentNode = currentNode->next;
@@ -89,19 +95,27 @@ void removeWindow(Window w) {
 
     closeWindow(currentNode->window);
     free(currentNode);
+    printf("Terminate: Remove window\n");
 }
 
 /* remove Node (not window) */
 void removeNode(Window w) {
+    printf("Initialise: Remove node\n");
     struct Workspace* ws = getCurrentWorkspace();
     struct Node* currentNode = ws->node;
     struct Node* previousNode = NULL;
-    if (currentNode == NULL) return;
+    if (currentNode == NULL) {
+        printf("Terminate: Remove node (no initial node)\n");
+        return;
+    }
+
     while (true) {
         if (currentNode->window == w)
             break;
-        if (currentNode->next == NULL)
+        if (currentNode->next == NULL) {
+            printf("Terminate: Remove node (not found)\n");
             return;
+        }
 
         previousNode = currentNode;
         currentNode = currentNode->next;
@@ -116,6 +130,7 @@ void removeNode(Window w) {
     }
 
     free(currentNode);
+    printf("Terminate: Remove node\n");
 }
 
 Bool nodeExists(Window w) {

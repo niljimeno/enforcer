@@ -8,7 +8,9 @@ void resizeWindow(Window win, int x, int y, int w, int h) {
 }
 
 void closeWindow(Window w) {
+    printf("Initiate: close window\n");
     if (w == 0) {
+        printf("Terminate: close window (null)\n");
         return;
     }
 
@@ -28,6 +30,7 @@ void closeWindow(Window w) {
                 ev.xclient.data.l[1] = CurrentTime;
                 XSendEvent(display, w, False, NoEventMask, &ev);
                 XFree(protocols);
+                printf("Terminate: close window (normal)\n");
                 return;
             }
         }
@@ -37,10 +40,12 @@ void closeWindow(Window w) {
     }
 
     XKillClient(display, w);
+    printf("Terminate: close window (forced)\n");
 }
 
 
 struct WindowData initialiseWindow(Window w) {
+    printf("Initiate: initialise window\n");
     long supplied_ret;
     XSizeHints size_hints;
 
@@ -60,7 +65,7 @@ struct WindowData initialiseWindow(Window w) {
                 XFree(types);
                 XMapWindow(display, w);
                 winData.shouldFloat = true;
-                printf("fast quit\n");
+                printf("Terminate: initialise window\n");
                 return winData;
             }
 
@@ -110,12 +115,15 @@ struct WindowData initialiseWindow(Window w) {
     }
     */
 
+    printf("Terminate: initialise window\n");
     return winData;
 }
 
 Window getCurrentWindow() {
+    printf("Initiate: get current window\n");
     Window w;
     int revert;
     XGetInputFocus(display, &w, &revert);
+    printf("Terminate: get current window\n");
     return w;
 }

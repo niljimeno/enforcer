@@ -1,2 +1,3 @@
+#!/bin/sh
 feh --bg-fill ~/Pictures/Ghost-in-the-shell/wall1.jpg
-redshift -O 1000 -P
+# redshift -O 1000 -P
