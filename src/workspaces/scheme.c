@@ -19,6 +19,8 @@ void resizeWindows() {
         node = node->next;
     }
 
+    if (windowCount == 0) return;
+
 
     int columns = windowCount; // (windowCount > 1) ? 2 : 1;
     int rows = 1; // (windowCount > 2) ? 2 : 1;
