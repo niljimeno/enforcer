@@ -1,6 +1,7 @@
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <X11/Xatom.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -22,11 +23,19 @@ Window root;
 #include "triggers/triggers.c"
 #include "test.c"
 
+void setProgramName() {
+    Window check = XCreateSimpleWindow(display, root, 0, 0, 1, 1, 0, 0, 0);
+    XChangeProperty(display, root, _NET_SUPPORT, XA_WINDOW, 32, PropModeReplace, (unsigned char *)&check, 1);
+    XChangeProperty(display, check, _NET_SUPPORT, XA_WINDOW, 32, PropModeReplace, (unsigned char *)&check, 1);
+    XChangeProperty(display, check, _NET_NAME, UTF8, 8, PropModeReplace, (unsigned char *)"Enforcer", 8);
+}
+
 int setup() {
     XInitThreads();
     if(!(display = XOpenDisplay(0x0))) return 1;
     root = DefaultRootWindow(display);
     setWindowTypes(display);
+    setProgramName();
     loadTriggers();
     setUpWorkspaces();
 

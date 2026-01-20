@@ -46,7 +46,6 @@ void createWorkspace() {
 
     while (lastWS->next) {
         (instance->tag)++;
-        printf("Increasing! Tag is at %d!\n", instance->tag);
         lastWS = lastWS->next;
     }
 

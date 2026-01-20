@@ -73,7 +73,6 @@ void changeFocus(int step) {
     printf("Number of windows: %d\n", countWorkspaceWindows(ws));
     struct Node* lastNode = ws->node;
     struct Node* lastValid = NULL;
-    struct Node* previousValid = NULL;
     struct Node* newFocus = NULL;
 
     printf("recieved %d\n", step);
@@ -85,7 +84,6 @@ void changeFocus(int step) {
                 if (lastValid == NULL) {
                     while (lastNode != NULL) {
                         if (lastNode->isAlive) {
-                            previousValid = lastValid;
                             lastValid = lastNode;
                         }
                         lastNode = lastNode->next;
@@ -106,7 +104,6 @@ void changeFocus(int step) {
         }
 
         if (lastNode->isAlive) {
-            previousValid = lastValid;
             lastValid = lastNode;
         }
 

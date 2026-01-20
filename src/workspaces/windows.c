@@ -113,6 +113,22 @@ struct WindowData initialiseWindow(Window w) {
         winData.shouldFloat = True;
     }
 
+    if (winData.shouldFloat) {
+        printf("attempting to resize\n");
+        int screen = DefaultScreen(display);
+        int width = DisplayWidth(display, screen);
+        int height = DisplayHeight(display, screen);
+
+        XWindowAttributes attributes;
+        if (XGetWindowAttributes(display, w, &attributes)) {
+            resizeWindow(w,
+                         (width - attributes.width),
+                         (height - attributes.height),
+                         attributes.width,
+                         attributes.height);
+        }
+    }
+
     printf("Terminate: initialise window\n");
     return winData;
 }
