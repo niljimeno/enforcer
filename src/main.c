@@ -28,6 +28,7 @@ int setup() {
     root = DefaultRootWindow(display);
     setWindowTypes(display);
     loadTriggers();
+    setUpWorkspaces();
 
     return 0;
 }

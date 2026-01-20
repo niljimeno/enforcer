@@ -15,8 +15,12 @@ void restoreFocus() {
         lastNode = lastNode->next;
     }
 
-    if (lastValid != NULL)
+    if (lastValid != NULL) {
+        printf("Focusable window found\n");
         focusWindow(lastValid->window);
+    } else {
+        printf("No windows found here.\n");
+    }
 
     printf("Terminate: restore focus\n");
 }
@@ -24,7 +28,7 @@ void restoreFocus() {
 /* todo! this breaks when emacs quits. something is in the way */
 void restoreWorkspace() {
     printf("Initiate: restore workspace\n");
-    if (workspace.node) {
+    if (getCurrentWorkspace()->node) {
         resizeWindows();
         restoreFocus();
     }
@@ -37,4 +41,13 @@ void closeFocusedWindow() {
     removeWindow(w);
     restoreWorkspace();
     printf("Terminate: close focused window\n");
+}
+
+void changeWorkspace(int n) {
+    printf("Initialise: Changing workspace\n");
+    currentWorkspaceIndex = n;
+    printf("Changing workspace! %d - %d", currentWorkspaceIndex, getCurrentWorkspace()->tag);
+    printf("Windows: %d", countWorkspaceWindows(getCurrentWorkspace()));
+    restoreWorkspace();
+    printf("Terminate: Changing workspace\n");
 }

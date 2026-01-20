@@ -1,3 +1,17 @@
+int countWorkspaceWindows(struct Workspace* ws) {
+    struct Node* node = ws->node;
+    int windowCount = 0;
+
+    while (node) {
+        if (!(node->isFloating) && node->isAlive)
+            ++windowCount;
+
+        node = node->next;
+    }
+
+    return windowCount;
+}
+
 /* apply resizing to all windows in the workspace */
 void resizeWindows() {
     printf("Initiate: resize windows\n");
@@ -8,17 +22,11 @@ void resizeWindows() {
     int height = DisplayHeight(display, screen)-gap;
 
     struct Workspace* ws = getCurrentWorkspace();
+    printf("Trying to resize here. Workspace tag: %d\n", ws->tag);
     struct Node* node = ws->node;
     if (node == NULL) return;
 
-    int windowCount = 0;
-    while (node) {
-        if (!(node->isFloating) && node->isAlive)
-            ++windowCount;
-
-        node = node->next;
-    }
-
+    int windowCount = countWorkspaceWindows(ws);
     if (windowCount == 0) return;
 
     int columns = windowCount;
@@ -61,6 +69,8 @@ void changeFocus(int step) {
     Window currentWindow = getCurrentWindow();
 
     struct Workspace* ws = getCurrentWorkspace();
+    printf("Trying to refocus here. Workspace tag: %d\n", ws->tag);
+    printf("Number of windows: %d\n", countWorkspaceWindows(ws));
     struct Node* lastNode = ws->node;
     struct Node* lastValid = NULL;
     struct Node* previousValid = NULL;
@@ -90,7 +100,6 @@ void changeFocus(int step) {
                 } else {
                     newFocus = lastNode->next;
                 }
-                break;
             }
 
             break;
@@ -111,7 +120,6 @@ void changeFocus(int step) {
     focusWindow(newFocus->window);
     printf("Terminate: change focus\n");
 }
-
 
 /*
 struct Dimensions {

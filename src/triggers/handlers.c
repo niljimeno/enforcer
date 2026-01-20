@@ -17,7 +17,20 @@ void handleKeyPress(XEvent *ev) {
         changeFocus(+1);
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("k"))) {
         changeFocus(-1);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("q"))) {
+        changeWorkspace(0);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("w"))) {
+        changeWorkspace(1);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("e"))) {
+        changeWorkspace(2);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("r"))) {
+        changeWorkspace(3);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("t"))) {
+        changeWorkspace(4);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("y"))) {
+        changeWorkspace(5);
     }
+
     printf("Terminate: handle keypress\n");
 }
 
@@ -53,7 +66,7 @@ void handleDestroyNotify(XEvent *ev) {
         restoreWorkspace();
     }
 
-    if (workspace.node == NULL)
+    if (getCurrentWorkspace()->node == NULL)
         XSetInputFocus(display, root, RevertToPointerRoot, CurrentTime);
 
     printf("Terminate: handle destroy notify\n");

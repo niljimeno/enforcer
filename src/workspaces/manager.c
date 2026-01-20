@@ -8,27 +8,48 @@ struct Node {
 struct Workspace {
     struct Workspace* next;
     struct Node* node;
+    int tag;
 };
 
-struct Workspace workspace;
+struct Workspace *workspace;
 int currentWorkspaceIndex = 0;
 
 struct Workspace* getCurrentWorkspace() {
-    struct Workspace* lastWS = &workspace;
+    printf("Initialise: get current workspace\n");
+    struct Workspace* lastWS = workspace;
+
+    printf("%p\n", (void *)lastWS);
+
     for (int i=0; i<currentWorkspaceIndex; i++)
         lastWS = lastWS->next;
 
+    printf("Tag: %d\n", lastWS->tag);
+    printf("Terminate: get current workspace\n");
     return lastWS;
 }
 
 /* Append a workspace at the end of the list */
 void createWorkspace() {
-    struct Workspace* lastWS = &workspace;
-    while (lastWS->next)
-        lastWS = lastWS->next;
-
+    struct Workspace* lastWS = workspace;
     struct Workspace* instance = malloc(sizeof(struct Workspace));
     instance->node = 0;
+    instance->tag = 1;
+    instance->next = NULL;
+
+    if (lastWS==NULL) {
+        printf("making the world a better place\n");
+        workspace = instance;
+        return;
+    }
+
+    (instance->tag)++;
+
+    while (lastWS->next) {
+        (instance->tag)++;
+        printf("Increasing! Tag is at %d!\n", instance->tag);
+        lastWS = lastWS->next;
+    }
+
     lastWS->next = instance;
 }
 
@@ -158,5 +179,15 @@ struct Node* getNode(Window w) {
 }
 
 void setUpWorkspaces() {
+    createWorkspace();
+    createWorkspace();
+    createWorkspace();
+    createWorkspace();
+    createWorkspace();
+    createWorkspace();
+    createWorkspace();
+    createWorkspace();
+    createWorkspace();
+    createWorkspace();
     createWorkspace();
 }

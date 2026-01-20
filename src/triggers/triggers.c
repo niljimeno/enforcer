@@ -10,6 +10,17 @@ void loadTriggers() {
     /* bind key presses */
     XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("q")), modkey,
             root, True, GrabModeAsync, GrabModeAsync);
+    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("w")), modkey,
+            root, True, GrabModeAsync, GrabModeAsync);
+    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("e")), modkey,
+            root, True, GrabModeAsync, GrabModeAsync);
+    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("r")), modkey,
+            root, True, GrabModeAsync, GrabModeAsync);
+    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("t")), modkey,
+            root, True, GrabModeAsync, GrabModeAsync);
+    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("y")), modkey,
+            root, True, GrabModeAsync, GrabModeAsync);
+
     XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("p")), modkey,
             root, True, GrabModeAsync, GrabModeAsync);
     XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("c")), modkey,
