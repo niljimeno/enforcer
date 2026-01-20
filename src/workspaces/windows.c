@@ -88,6 +88,7 @@ struct WindowData initialiseWindow(Window w) {
     }
 
     /* check for fixed size windows */
+    /*
     if (!winData.shouldFloat &&
         XGetWMNormalHints(display, w, &size_hints, &supplied_ret) &&
         (size_hints.flags & PMinSize) && (size_hints.flags & PMaxSize) &&
@@ -129,6 +130,7 @@ struct WindowData initialiseWindow(Window w) {
         }
     }
 
+    */
     printf("Terminate: initialise window\n");
     return winData;
 }

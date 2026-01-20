@@ -44,6 +44,8 @@ void closeFocusedWindow() {
 }
 
 void changeWorkspace(int n) {
+    if (currentWorkspaceIndex == n) return;
+
     printf("Initialise: Changing workspace\n");
     struct Workspace* ws = getCurrentWorkspace();
     struct Node* node = ws->node;

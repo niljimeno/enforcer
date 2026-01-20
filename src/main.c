@@ -23,6 +23,7 @@ Window root;
 #include "triggers/triggers.c"
 #include "test.c"
 
+/* set running WM name to Enforcer */
 void setProgramName() {
     Window check = XCreateSimpleWindow(display, root, 0, 0, 1, 1, 0, 0, 0);
     XChangeProperty(display, root, _NET_SUPPORT, XA_WINDOW, 32, PropModeReplace, (unsigned char *)&check, 1);
@@ -52,13 +53,10 @@ int main(int argc, char* args[])
     if (setup() != 0) return 1;
 
     XEvent ev;
-    for(;;)
-    {
+    while (true) {
         printf("before XNextEvent\n");
-        fflush(stdout);
         XNextEvent(display, &ev);
         printf("got event: %d\n", ev.type);
-        fflush(stdout);
 
         // XNextEvent(display, &ev);
         if (ev.type >= 0 && ev.type < LASTEvent) {

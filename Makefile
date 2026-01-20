@@ -7,7 +7,8 @@ all:
 	cc $(CFLAGS) -I$(PREFIX)/include src/main.c -L$(PREFIX)/lib -lX11 -o build/enforcer
 
 init:
-	Xephyr -br -ac -noreset -screen 1200x720 :1 &
+	Xephyr -br -ac -noreset :1 &
+	# Xephyr -br -ac -noreset -screen 1200x720 :1 &
 
 run:
 	# remember to run make init first!

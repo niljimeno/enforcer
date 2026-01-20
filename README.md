@@ -1,10 +1,30 @@
 # Enforcer
 Attempt at making a window manager,
-inspired by SXWM, Vox-WM, and Ratpoison.
+inspired by
+[SXWM](https://github.com/uint23/sxwm),
+[Vox-WM](https://github.com/DerjenigeUberMensch/vox-wm) and
+[Ratpoison](https://github.com/RatPoison-dev/RatPoison).
+
+![img](thumbnail.png)
+
+> NCMPCPP, Blue Revolver and Kakoune running under Enforcer.
 
 ## State:
-Usable, but not recommended.
+Usable, but still not recommended.
 It's a low-quality DWM skeleton.
+
+**Floating windows are not supported** and they will not be anytime soon.
+
+## Usage
+- `Mod-enter`: open a new terminal (st)
+- `Mod-p`: open dmenu
+- `Mod-c`: close focused window
+- `Mod-Shift-c`: close enforcer
+- `Mod-j / Mod-k`: change focus
+- `Mod-qwertyuio`: change workspace
+
+## Setup
+Adjustments can be made in config.h (under development).
 
 ## Testing instructions
 Run `make init` to open a Xephyr environment,
@@ -12,15 +32,9 @@ then `make run` to build and run the program.
 Change the init script at `scripts/init.sh`
 to change the background.
 
-## Usage
-- `Mod-enter`: open a new terminal (st)
-- `Mod-c`: close focused window
-- `Mod-Shift-c`: close enforcer
-- `Mod-j / Mod-k`: change focus
-- `Mod-qwertyuio`: change workspace
+----------------
 
-
-Wishlist:
+## Wishlist:
 - Create/remove workspaces and windows at will
 - Modify the amount of windows shown (like mod+i in dwm) and scroll windows horizontally (like ratpoison)
 - Global floating centered terminal (required)
