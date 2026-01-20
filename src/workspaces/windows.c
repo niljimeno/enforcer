@@ -125,3 +125,11 @@ Window getCurrentWindow() {
     printf("Terminate: get current window\n");
     return w;
 }
+
+void focusWindow(Window w) {
+    XRaiseWindow(display, w);
+    XSetInputFocus(display,
+                   w,
+                   RevertToPointerRoot,
+                   CurrentTime);
+}

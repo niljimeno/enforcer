@@ -15,12 +15,8 @@ void restoreFocus() {
         lastNode = lastNode->next;
     }
 
-    if (lastValid != NULL) {
-        XSetInputFocus(display, lastValid->window, RevertToPointerRoot, CurrentTime);
-    } else {
-        XSetInputFocus(display, root, RevertToPointerRoot, CurrentTime);
-    }
-
+    if (lastValid != NULL)
+        focusWindow(lastValid->window);
 
     printf("Terminate: restore focus\n");
 }

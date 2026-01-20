@@ -35,7 +35,7 @@ void handleMapRequest(XEvent *ev) {
 
     resizeWindows();
     XMapWindow(display, w);
-    XSetInputFocus(display, w, RevertToPointerRoot, CurrentTime);
+    focusWindow(w);
     printf("Terminate: handle map request\n");
 }
 

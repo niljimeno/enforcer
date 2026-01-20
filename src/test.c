@@ -13,4 +13,6 @@ void test() {
     a.x = 5;
     printf("%d\n", a.x);
     setUpWorkspaces();
+
+    printf("go %d!\n", 2/3);
 }

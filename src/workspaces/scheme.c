@@ -21,9 +21,8 @@ void resizeWindows() {
 
     if (windowCount == 0) return;
 
-
-    int columns = windowCount; // (windowCount > 1) ? 2 : 1;
-    int rows = 1; // (windowCount > 2) ? 2 : 1;
+    int columns = windowCount;
+    int rows = 1;
 
     int csize = width/columns;
     int rsize = height/rows;
@@ -91,6 +90,7 @@ void changeFocus(int step) {
                 } else {
                     newFocus = lastNode->next;
                 }
+                break;
             }
 
             break;
@@ -108,11 +108,7 @@ void changeFocus(int step) {
         return;
     }
 
-    XSetInputFocus(display,
-                   newFocus->window,
-                   RevertToPointerRoot,
-                   CurrentTime);
-
+    focusWindow(newFocus->window);
     printf("Terminate: change focus\n");
 }
 
