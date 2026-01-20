@@ -45,9 +45,27 @@ void closeFocusedWindow() {
 
 void changeWorkspace(int n) {
     printf("Initialise: Changing workspace\n");
+    struct Workspace* ws = getCurrentWorkspace();
+    struct Node* node = ws->node;
+
+    while (node != NULL) {
+        if (node->isAlive)
+            XUnmapWindow(display, node->window);
+
+        node = node->next;
+    }
+
     currentWorkspaceIndex = n;
-    printf("Changing workspace! %d - %d", currentWorkspaceIndex, getCurrentWorkspace()->tag);
-    printf("Windows: %d", countWorkspaceWindows(getCurrentWorkspace()));
+    ws = getCurrentWorkspace();
+    node = ws->node;
+
+    while (node != NULL) {
+        if (node->isAlive)
+            XMapWindow(display, node->window);
+
+        node = node->next;
+    }
+
     restoreWorkspace();
     printf("Terminate: Changing workspace\n");
 }

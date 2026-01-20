@@ -3,7 +3,8 @@ Attempt at making a window manager,
 inspired by SXWM, Vox-WM, and Ratpoison.
 
 ## State:
-Incredibly early version. Practically unusable.
+Usable, but not recommended.
+It's a low-quality DWM skeleton.
 
 ## Testing instructions
 Run `make init` to open a Xephyr environment,
@@ -16,6 +17,7 @@ to change the background.
 - `Mod-c`: close focused window
 - `Mod-Shift-Q`: close enforcer
 - `Mod-j / Mod-k`: change focus
+- `Mod-qwertyuio`: change workspace
 
 
 Wishlist:

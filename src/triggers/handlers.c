@@ -29,6 +29,12 @@ void handleKeyPress(XEvent *ev) {
         changeWorkspace(4);
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("y"))) {
         changeWorkspace(5);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("u"))) {
+        changeWorkspace(6);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("i"))) {
+        changeWorkspace(7);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("o"))) {
+        changeWorkspace(8);
     }
 
     printf("Terminate: handle keypress\n");
