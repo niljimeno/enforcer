@@ -1,2 +1,2 @@
-// int modkey = Mod1Mask; // alt
 int modkey = Mod4Mask; //super
+int devmodeModkey = Mod1Mask; //alt

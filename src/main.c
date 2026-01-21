@@ -45,9 +45,13 @@ int setup() {
 
 int main(int argc, char* args[])
 {
-    if (argc > 1 && strcmp("test",args[1]) == 0) {
-        test();
-        return 0;
+    if (argc > 1) {
+        if (strcmp("test",args[1]) == 0) {
+            test();
+            return 0;
+        } else if (strcmp("dev",args[1]) == 0) {
+            modkey = devmodeModkey;
+        }
     }
 
     if (setup() != 0) return 1;

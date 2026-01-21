@@ -13,7 +13,7 @@ inspired by
 Usable, but still not recommended.
 It's a low-quality DWM skeleton.
 
-**Floating windows are not supported** and they will not be anytime soon.
+Floating windows are not supported for the most part.
 
 ## Usage
 - `Mod-enter`: open a new terminal (st)
@@ -22,9 +22,6 @@ It's a low-quality DWM skeleton.
 - `Mod-Shift-c`: close enforcer
 - `Mod-j / Mod-k`: change focus
 - `Mod-qwertyuio`: change workspace
-
-## Setup
-Adjustments can be made in config.h (under development).
 
 ## Testing instructions
 Run `make init` to open a Xephyr environment,
@@ -35,9 +32,10 @@ to change the background.
 ----------------
 
 ## Wishlist:
-- Create/remove workspaces and windows at will
-- Modify the amount of windows shown (like mod+i in dwm) and scroll windows horizontally (like ratpoison)
-- Global floating centered terminal (required)
-- Let st and dmenu be the only default application binds. Everything else shall be hooks
-- Non-immediate keybind execution like Ratpoison
-- Mod+Tab to open hacker screen (I still not know what to use it for)
+- [ ] Create/remove workspaces and windows with no limits
+- [ ] Modify the amount of windows shown (like mod+i in dwm) and scroll windows horizontally (like ratpoison)
+- [ ] Global floating centered terminal (required)
+- [ ] Use hooks to set up custom program executions (like st and dmenu)
+- [ ] Non-immediate keybind execution like Ratpoison
+- [ ] Mod+Tab to open hacker screen (I still not know what to use it for)
+- [ ] UI elements + FZF-like search integration (like dmenu but with the looks of fzf, transparent and overlayed)
