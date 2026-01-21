@@ -31,7 +31,14 @@ to change the background.
 
 ----------------
 
-## Wishlist:
+## Todo:
+- [ ] Shift+workspaceKey to move node
+- [ ] Fullscreen mode (monocle)
+- [ ] Test key to get prettified workspace data
+- [ ] Handle firefox errors (when sharing screen, etc)
+- [ ] Properly handle floating and popups (they often appear cut)
+
+###  Wishlist:
 - [ ] Create/remove workspaces and windows with no limits
 - [ ] Modify the amount of windows shown (like mod+i in dwm) and scroll windows horizontally (like ratpoison)
 - [ ] Global floating centered terminal (required)
