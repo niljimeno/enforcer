@@ -46,7 +46,7 @@ void closeFocusedWindow() {
 void changeWorkspace(int n) {
     if (currentWorkspaceIndex == n) return;
 
-    printf("Initialise: Changing workspace\n");
+    printf("Initiate: Changing workspace\n");
     struct Workspace* ws = getCurrentWorkspace();
     struct Node* node = ws->node;
 
@@ -70,4 +70,41 @@ void changeWorkspace(int n) {
 
     restoreWorkspace();
     printf("Terminate: Changing workspace\n");
+}
+
+void moveToWorkspace(int n) {
+    printf("Initiate: Move to workspace\n");
+    if (currentWorkspaceIndex == n) return;
+
+    Window w = getCurrentWindow();
+    struct Node* target = getNode(w);
+    if (target == NULL || target->isAlive == false) return;
+
+    XUnmapWindow(display, target->window);
+
+    struct Node* newNode = malloc(sizeof(struct Node));
+    *newNode = *target;
+
+    removeNode(w);
+
+    struct Workspace *lastWS = workspace;
+    struct Node *lastNode;
+
+    for (int i=0; i<n; i++)
+        lastWS = lastWS->next;
+
+    lastNode = lastWS->node;
+    if (lastNode == NULL) {
+        lastWS->node = newNode;
+        restoreWorkspace();
+        return;
+    }
+
+    while (lastNode->next != NULL)
+        lastNode = lastNode->next;
+
+    lastNode->next = newNode;
+    restoreWorkspace();
+
+    printf("Terminate: Move to workspace\n");
 }

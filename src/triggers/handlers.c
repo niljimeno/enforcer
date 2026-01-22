@@ -17,6 +17,26 @@ void handleKeyPress(XEvent *ev) {
         changeFocus(+1);
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("k"))) {
         changeFocus(-1);
+
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("q")) && ev->xkey.state & ShiftMask) {
+        moveToWorkspace(0);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("w")) && ev->xkey.state & ShiftMask) {
+        moveToWorkspace(1);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("e")) && ev->xkey.state & ShiftMask) {
+        moveToWorkspace(2);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("r")) && ev->xkey.state & ShiftMask) {
+        moveToWorkspace(3);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("t")) && ev->xkey.state & ShiftMask) {
+        moveToWorkspace(4);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("y")) && ev->xkey.state & ShiftMask) {
+        moveToWorkspace(5);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("u")) && ev->xkey.state & ShiftMask) {
+        moveToWorkspace(6);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("i")) && ev->xkey.state & ShiftMask) {
+        moveToWorkspace(7);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("o")) && ev->xkey.state & ShiftMask) {
+        moveToWorkspace(8);
+
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("q"))) {
         changeWorkspace(0);
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("w"))) {

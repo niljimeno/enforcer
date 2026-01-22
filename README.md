@@ -22,6 +22,7 @@ Floating windows are not supported for the most part.
 - `Mod-Shift-c`: close enforcer
 - `Mod-j / Mod-k`: change focus
 - `Mod-qwertyuio`: change workspace
+- `Mod-Shift-qwertyuio`: change window workspace
 
 ## Testing instructions
 Run `make init` to open a Xephyr environment,
