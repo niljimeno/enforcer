@@ -27,6 +27,27 @@ void loadTriggers() {
     XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("o")), modkey,
             root, True, GrabModeAsync, GrabModeAsync);
 
+    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("!")), modkey,
+            root, True, GrabModeAsync, GrabModeAsync);
+    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("@")), modkey,
+            root, True, GrabModeAsync, GrabModeAsync);
+    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("#")), modkey,
+            root, True, GrabModeAsync, GrabModeAsync);
+    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("$")), modkey,
+            root, True, GrabModeAsync, GrabModeAsync);
+    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("%")), modkey,
+            root, True, GrabModeAsync, GrabModeAsync);
+    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("^")), modkey,
+            root, True, GrabModeAsync, GrabModeAsync);
+
+    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("!")), modkey | ShiftMask,
+            root, True, GrabModeAsync, GrabModeAsync);
+    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("@")), modkey | ShiftMask,
+            root, True, GrabModeAsync, GrabModeAsync);
+    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("#")), modkey | ShiftMask,
+            root, True, GrabModeAsync, GrabModeAsync);
+
+
     XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("p")), modkey,
             root, True, GrabModeAsync, GrabModeAsync);
     XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("c")), modkey,
@@ -36,6 +57,7 @@ void loadTriggers() {
             root, True, GrabModeAsync, GrabModeAsync);
     XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("k")), modkey,
             root, True, GrabModeAsync, GrabModeAsync);
+
 
     XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("Return")), modkey,
             root, True, GrabModeAsync, GrabModeAsync);

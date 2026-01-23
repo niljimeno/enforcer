@@ -5,6 +5,10 @@ void dummy(XEvent *ev) {}
 void handleKeyPress(XEvent *ev) {
     printf("Initiate: handle keypress\n");
     KeyCode code = ev->xkey.keycode;
+
+    printf("Keycode is %d\n", code);
+    printf("Exclam Keycode is %d\n", XKeysymToKeycode(display, XStringToKeysym("!")));
+
     if (code == XKeysymToKeycode(display, XStringToKeysym("Return"))) {
         spawnDaemon("st");
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("c")) && ev->xkey.state & ShiftMask) {
@@ -18,23 +22,23 @@ void handleKeyPress(XEvent *ev) {
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("k"))) {
         changeFocus(-1);
 
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("q")) && ev->xkey.state & ShiftMask) {
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("1"))) {
         moveToWorkspace(0);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("w")) && ev->xkey.state & ShiftMask) {
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("2"))) {
         moveToWorkspace(1);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("e")) && ev->xkey.state & ShiftMask) {
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("3"))) {
         moveToWorkspace(2);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("r")) && ev->xkey.state & ShiftMask) {
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("4"))) {
         moveToWorkspace(3);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("t")) && ev->xkey.state & ShiftMask) {
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("5"))) {
         moveToWorkspace(4);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("y")) && ev->xkey.state & ShiftMask) {
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("6"))) {
         moveToWorkspace(5);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("u")) && ev->xkey.state & ShiftMask) {
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("7"))) {
         moveToWorkspace(6);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("i")) && ev->xkey.state & ShiftMask) {
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("8"))) {
         moveToWorkspace(7);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("o")) && ev->xkey.state & ShiftMask) {
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("9"))) {
         moveToWorkspace(8);
 
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("q"))) {
@@ -92,7 +96,7 @@ void handleDestroyNotify(XEvent *ev) {
         restoreWorkspace();
     }
 
-    if (getCurrentWorkspace()->node == NULL)
+    if (struct Node* node = getCurrentWorkspace()->node; node != NULL && w != NULL && node->isAlive && getNode(w) != NULL)
         XSetInputFocus(display, root, RevertToPointerRoot, CurrentTime);
 
     printf("Terminate: handle destroy notify\n");
