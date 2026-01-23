@@ -15,6 +15,10 @@ run:
 	make
 	DISPLAY=:1 ./build/enforcer dev
 
+install:
+	make
+	mv ./build/enforcer /usr/local/bin/
+
 test:
 	make
 	./build/enforcer test
