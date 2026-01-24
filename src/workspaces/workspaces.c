@@ -38,7 +38,8 @@ void restoreWorkspace() {
 void closeFocusedWindow() {
     printf("Initiate: close focused window\n");
     Window w = getCurrentWindow();
-    removeWindow(w);
+    closeWindow(w);
+    // removeWindow(w);
     restoreWorkspace();
     printf("Terminate: close focused window\n");
 }

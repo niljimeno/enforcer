@@ -21,6 +21,7 @@ Window root;
 /* moving parts */
 #include "workspaces/workspaces.c"
 #include "triggers/triggers.c"
+#include "error.c"
 #include "test.c"
 
 /* set running WM name to Enforcer */
@@ -39,6 +40,7 @@ int setup() {
     setProgramName();
     loadTriggers();
     setUpWorkspaces();
+    XSetErrorHandler(errorHandler);
 
     return 0;
 }

@@ -96,8 +96,11 @@ void handleDestroyNotify(XEvent *ev) {
         restoreWorkspace();
     }
 
-    if (struct Node* node = getCurrentWorkspace()->node; node != NULL && w != NULL && node->isAlive && getNode(w) != NULL)
+
+    if (getCurrentWorkspace()->node == NULL) {
+        printf("Set input focus -- handleDestroyNotify");
         XSetInputFocus(display, root, RevertToPointerRoot, CurrentTime);
+    }
 
     printf("Terminate: handle destroy notify\n");
 }
