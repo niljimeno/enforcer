@@ -3,6 +3,7 @@ struct Node {
     struct Node* next;
     bool isFloating;
     bool isAlive; // if it's about to get closed
+    bool visible;
 };
 
 struct Workspace {
@@ -64,6 +65,7 @@ struct WindowData createWindow(Window w) {
     instance->isFloating = winData.shouldFloat;
     instance->isAlive = true;
     instance->next = NULL;
+    instance->visible = true;
 
     printf("should float %b\n", instance->isFloating);
 
@@ -94,9 +96,11 @@ void removeNode(Window w) {
         previousNode = NULL;
 
         while (currentNode) {
+            printf("Search: node\n");
             nextNode = currentNode->next;
 
             if (currentNode->window == w) {
+                printf("== REMOVING NODE ==\n");
                 currentNode->isAlive = false;
 
                 if (previousNode == NULL) {

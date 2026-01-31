@@ -10,7 +10,7 @@ void restoreFocus() {
     struct Node* lastValid = NULL;
 
     while (lastNode) {
-        if (lastNode->isAlive)
+        if (lastNode->isAlive && lastNode->visible)
             lastValid = lastNode;
         lastNode = lastNode->next;
     }

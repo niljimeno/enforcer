@@ -84,6 +84,9 @@ void handleMapRequest(XEvent *ev) {
 
 /* after mapping the window */
 void handleMapNotify(XEvent *ev) {
+    struct Node* node = getNode(ev->xmaprequest.window);
+    if (node)
+        node->visible = true;
 }
 
 /* after unmapping the window */
@@ -95,21 +98,17 @@ void handleUnmapNotify(XEvent *ev) {
     if (!nodeExistsInWorkspace(w, getCurrentWorkspace()))
         removeNode(w);
     */
+    struct Node* node = getNode(ev->xmaprequest.window);
+    if (node)
+        node->visible = false;
 }
 
 void handleDestroyNotify(XEvent *ev) {
     printf("Initiate: handle destroy notify\n");
     Window w = ev->xdestroywindow.window;
-    /*
-    if (w && nodeExists(w)) {
-        removeNode(w);
-        restoreWorkspace();
-    }
-    */
 
     removeNode(w);
     restoreWorkspace();
-
 
     if (getCurrentWorkspace()->node == NULL) {
         printf("Set input focus -- handleDestroyNotify");

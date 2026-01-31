@@ -3,7 +3,7 @@ int countWorkspaceWindows(struct Workspace* ws) {
     int windowCount = 0;
 
     while (node) {
-        if (!(node->isFloating) && node->isAlive)
+        if (!(node->isFloating) && node->isAlive && node->visible)
             ++windowCount;
 
         node = node->next;
@@ -43,7 +43,7 @@ void resizeWindows() {
     int i = 0;
     while (node) {
         printf("doing checks\n");
-        if (node->isFloating || !(node->isAlive)) {
+        if (node->isFloating || !(node->isAlive) || !(node->visible)) {
             node = node->next;
             continue;
         }
@@ -76,17 +76,29 @@ void changeFocus(int step) {
     struct Node* newFocus = NULL;
 
     printf("recieved %d\n", step);
+    printf("i updated, i promise\n");
+    printf("%p and %d\n", (void*)lastNode, lastNode==NULL);
+    printf("i updated, i promise\n");
 
     if (lastNode == NULL) return;
+    printf("It's not null, somehow\n");
     while (lastNode) {
+        if (!(lastNode->isAlive) || !(lastNode->visible)) {
+            lastNode = lastNode->next;
+            continue;
+        }
         if (lastNode->window == currentWindow) {
             if (step == -1) {
+                printf("it is -1\n");
                 if (lastValid == NULL) {
+                    printf("we're doing this??\n");
                     while (lastNode != NULL) {
-                        if (lastNode->isAlive) {
+                        printf("%p and %d\n", (void*)lastNode, lastNode==NULL);
+                        if (lastNode->isAlive && lastNode->visible) {
                             lastValid = lastNode;
                         }
                         lastNode = lastNode->next;
+                        printf("i'm okay\n");
                     }
                     newFocus = lastValid;
                 } else {
@@ -103,14 +115,14 @@ void changeFocus(int step) {
             break;
         }
 
-        if (lastNode->isAlive) {
+        if (lastNode->isAlive && lastNode->visible) {
             lastValid = lastNode;
         }
 
         lastNode = lastNode->next;
     }
 
-    if (!(newFocus->isAlive)) {
+    if (!(newFocus) || !(newFocus->isAlive) || !(newFocus->visible)) {
         return;
     }
 
