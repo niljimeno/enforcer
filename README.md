@@ -33,10 +33,9 @@ to change the background.
 ----------------
 
 ## Todo:
-- [ ] Shift+workspaceKey to move node
+- [x] Shift+workspaceKey to move node
+- [/] Handle map/unmap/destroy requests *globally* to avoid leftovers
 - [ ] Fullscreen mode (monocle)
-- [ ] Test key to get prettified workspace data
-- [ ] Handle firefox errors (when sharing screen, etc)
 - [ ] Properly handle floating and popups (they often appear cut)
 
 ###  Wishlist:

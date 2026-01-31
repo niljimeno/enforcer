@@ -84,17 +84,31 @@ void handleMapRequest(XEvent *ev) {
 
 /* after mapping the window */
 void handleMapNotify(XEvent *ev) {
-    printf("*Initiate: handle map notify\n");
-    printf("*Terminate: handle map notify\n");
+}
+
+/* after unmapping the window */
+void handleUnmapNotify(XEvent *ev) {
+    /*
+     * unfortunately this activates when changing workspace
+
+    Window w = ev->xmaprequest.window;
+    if (!nodeExistsInWorkspace(w, getCurrentWorkspace()))
+        removeNode(w);
+    */
 }
 
 void handleDestroyNotify(XEvent *ev) {
     printf("Initiate: handle destroy notify\n");
     Window w = ev->xdestroywindow.window;
+    /*
     if (w && nodeExists(w)) {
         removeNode(w);
         restoreWorkspace();
     }
+    */
+
+    removeNode(w);
+    restoreWorkspace();
 
 
     if (getCurrentWorkspace()->node == NULL) {

@@ -46,8 +46,6 @@ void closeWindow(Window w) {
 
 struct WindowData initialiseWindow(Window w) {
     printf("Initiate: initialise window\n");
-    long supplied_ret;
-    XSizeHints size_hints;
 
     struct WindowData winData;
     winData.shouldFloat = false;

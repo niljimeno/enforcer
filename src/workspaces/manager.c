@@ -81,81 +81,62 @@ struct WindowData createWindow(Window w) {
     return winData;
 }
 
-/* remove window and its node */
-void removeWindow(Window w) {
-    printf("Initialise: Remove window\n");
-    struct Workspace* ws = getCurrentWorkspace();
-    struct Node* currentNode = ws->node;
-    struct Node* previousNode = NULL;
-    if (currentNode == NULL) {
-        printf("Terminate: Remove window (no initial node)\n");
-        return;
-    }
-    while (true) {
-        if (currentNode->window == w)
-            break;
-        if (currentNode->next == NULL) {
-            printf("Terminate: Remove window (not found)\n");
-            return;
-        }
-
-        previousNode = currentNode;
-        currentNode = currentNode->next;
-    }
-
-    currentNode->isAlive = false;
-
-    if (previousNode == NULL) {
-        if (currentNode->next != NULL)
-            ws->node = currentNode->next;
-        else
-            ws->node = NULL;
-    } else
-        previousNode->next = currentNode->next;
-
-    closeWindow(currentNode->window);
-    free(currentNode);
-    printf("Terminate: Remove window\n");
-}
-
 /* remove Node (not window) */
 void removeNode(Window w) {
     printf("Initialise: Remove node\n");
-    struct Workspace* ws = getCurrentWorkspace();
-    struct Node* currentNode = ws->node;
-    struct Node* previousNode = NULL;
-    if (currentNode == NULL) {
-        printf("Terminate: Remove node (no initial node)\n");
-        return;
-    }
+    struct Workspace* ws = workspace;
+    struct Node* currentNode;
+    struct Node* previousNode;
+    struct Node* nextNode;
 
-    while (true) {
-        if (currentNode->window == w)
-            break;
-        if (currentNode->next == NULL) {
-            printf("Terminate: Remove node (not found)\n");
-            return;
+    while (ws) {
+        currentNode = ws->node;
+        previousNode = NULL;
+
+        while (currentNode) {
+            nextNode = currentNode->next;
+
+            if (currentNode->window == w) {
+                currentNode->isAlive = false;
+
+                if (previousNode == NULL) {
+                    ws->node = currentNode->next;
+                } else {
+                    previousNode->next = currentNode->next;
+                }
+
+                free(currentNode);
+                currentNode = NULL;
+            }
+
+            previousNode = currentNode ? currentNode : previousNode;
+            currentNode = nextNode;
         }
 
-        previousNode = currentNode;
-        currentNode = currentNode->next;
+        ws = ws->next;
     }
-
-    currentNode->isAlive = false;
-
-    if (previousNode == NULL) {
-        ws->node = currentNode->next;
-    } else {
-        previousNode->next = currentNode->next;
-    }
-
-    free(currentNode);
-    printf("Terminate: Remove node\n");
 }
 
 Bool nodeExists(Window w) {
     struct Workspace* ws = getCurrentWorkspace();
-    struct Node* node = ws->node;
+    struct Node* node;
+    while (ws) {
+        node = ws->node;
+        while (node) {
+            if (node->window == w)
+                return true;
+            node = node->next;
+        }
+
+        ws = ws->next;
+    }
+
+    return false;
+}
+
+Bool nodeExistsInWorkspace(Window w, struct Workspace* ws) {
+    struct Node* node;
+    node = ws->node;
     while (node) {
         if (node->window == w)
             return true;

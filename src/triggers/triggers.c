@@ -74,6 +74,7 @@ void loadTriggers() {
     eventTable[KeyPress] = handleKeyPress;
     eventTable[MapRequest] = handleMapRequest;
     eventTable[MapNotify] = handleMapNotify;
+    eventTable[UnmapNotify] = handleUnmapNotify;
     eventTable[DestroyNotify] = handleDestroyNotify;
     onLoad();
 }
