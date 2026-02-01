@@ -15,7 +15,8 @@
 #include "data/data.c"
 
 /* global values */
-Display * display;
+Display* display;
+GC gc;
 Window root;
 
 /* moving parts */
@@ -36,6 +37,9 @@ int setup() {
     XInitThreads();
     if(!(display = XOpenDisplay(0x0))) return 1;
     root = DefaultRootWindow(display);
+    gc = XCreateGC(display, root, 0, NULL);
+    XSetForeground(display, gc, 0xFFFFFF);
+
     setWindowTypes(display);
     setProgramName();
     loadTriggers();

@@ -15,8 +15,6 @@ int countWorkspaceWindows(struct Workspace* ws) {
 /* apply resizing to all windows in the workspace */
 void resizeWindows() {
     printf("Initiate: resize windows\n");
-    int gap = 15;
-
     int screen = DefaultScreen(display);
     int width = DisplayWidth(display, screen)-gap;
     int height = DisplayHeight(display, screen)-gap;
@@ -72,28 +70,24 @@ void resizeWindows() {
 }
 
 void drawBorder(struct Node* focusedNode) {
-    printf("Initialise: draw border\n");
-
-    XClearWindow(display, root);
-
-    printf("== IS IT NULL ==\n");
     if (focusedNode==NULL) return;
 
-    GC gc = DefaultGC(display, 0);
-    XSetForeground(display, gc, 0xFFFFFF);
 
-    printf("%d, %d, %d, %d\n", focusedNode->transform.x,
-                               focusedNode->transform.y,
-                               focusedNode->transform.width,
-                               focusedNode->transform.height);
+    struct Node* node = getCurrentWorkspace()->node;
 
-    XFillRectangle(display, root, DefaultGC(display, 0), focusedNode->transform.x-1, focusedNode->transform.y-1, focusedNode->transform.width+1, 1);
-    XFillRectangle(display, root, DefaultGC(display, 0), focusedNode->transform.x-1, focusedNode->transform.y-1, 1, focusedNode->transform.height+1);
-    XFillRectangle(display, root, DefaultGC(display, 0), focusedNode->transform.x+focusedNode->transform.width, focusedNode->transform.y-1, 1, focusedNode->transform.height+1);
-    XFillRectangle(display, root, DefaultGC(display, 0), focusedNode->transform.x, focusedNode->transform.y+focusedNode->transform.height, focusedNode->transform.width+1,1);
+    while (node) {
+        printf("==== IT - 1 --- %p / %p = %d\n", (void*)node, (void*)focusedNode, (node==focusedNode));
+        XSetWindowBorderWidth(display, focusedNode->window, 1);
+        if (node == focusedNode) {
+            XSetWindowBorder(display, node->window, colorBorderSelected);
+        } else {
+            XSetWindowBorder(display, node->window, colorBorder);
+        }
 
-    printf("Terminate: draw border\n");
+        node = node->next;
+    }
 }
+
 
 void changeFocus(int step) {
     printf("Initiate: change focus\n");
