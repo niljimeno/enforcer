@@ -1,9 +1,17 @@
+struct Transform {
+    int x;
+    int y;
+    int width;
+    int height;
+};
+
 struct Node {
     Window window;
     struct Node* next;
     bool isFloating;
     bool isAlive; // if it's about to get closed
     bool visible;
+    struct Transform transform;
 };
 
 struct Workspace {

@@ -2,9 +2,7 @@
 #include "manager.c"
 #include "scheme.c"
 
-/* Changes focus for the last window in the workspace */
-void restoreFocus() {
-    printf("Initiate: restore focus\n");
+struct Node* getLastValid() {
     struct Workspace* ws = getCurrentWorkspace();
     struct Node* lastNode = ws->node;
     struct Node* lastValid = NULL;
@@ -14,6 +12,13 @@ void restoreFocus() {
             lastValid = lastNode;
         lastNode = lastNode->next;
     }
+
+    return lastValid;
+}
+
+/* Changes focus for the last window in the workspace */
+void restoreFocus(struct Node* lastValid) {
+    printf("Initiate: restore focus\n");
 
     if (lastValid != NULL) {
         printf("Focusable window found\n");
@@ -28,10 +33,17 @@ void restoreFocus() {
 /* todo! this breaks when emacs quits. something is in the way */
 void restoreWorkspace() {
     printf("Initiate: restore workspace\n");
-    if (getCurrentWorkspace()->node) {
-        resizeWindows();
-        restoreFocus();
-    }
+    // if (getCurrentWorkspace()->node) {
+
+    struct Node* lastValid = getLastValid();
+
+    restoreFocus(lastValid);
+    XSync(display, False);
+    resizeWindows();
+
+    drawBorder(lastValid);
+
+    // }
     printf("Terminate: restore workspace\n");
 }
 

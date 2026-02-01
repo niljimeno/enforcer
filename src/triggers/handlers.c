@@ -79,6 +79,7 @@ void handleMapRequest(XEvent *ev) {
     resizeWindows();
     XMapWindow(display, w);
     focusWindow(w);
+    drawBorder(getNode(w));
     printf("Terminate: handle map request\n");
 }
 

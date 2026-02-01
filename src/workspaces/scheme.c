@@ -49,18 +49,50 @@ void resizeWindows() {
         }
         printf("finished checks\n");
 
+        node->transform.x = gap+(csize*i);
+        node->transform.y = gap;
+        node->transform.width = csize-gap;
+        node->transform.height = rsize-gap;
+
         printf("c: %d, ", csize);
         printf("p: %d\n", csize*i);
         resizeWindow(node->window,
-                     gap+(csize*i),
-                     gap,// (rsize*(rows > 1 ? ((i-2)%2) : 0)),
-                     csize-gap,
-                     rsize-gap);
+                     node->transform.x,
+                     node->transform.y,
+                     node->transform.width,
+                     node->transform.height);
+
 
         node = node->next;
         ++i;
     }
+
+    XFlush(display);
     printf("Terminate: resize windows\n");
+}
+
+void drawBorder(struct Node* focusedNode) {
+    printf("Initialise: draw border\n");
+
+    XClearWindow(display, root);
+
+    printf("== IS IT NULL ==\n");
+    if (focusedNode==NULL) return;
+
+    GC gc = DefaultGC(display, 0);
+    XSetForeground(display, gc, 0xFFFFFF);
+
+    printf("%d, %d, %d, %d\n", focusedNode->transform.x,
+                               focusedNode->transform.y,
+                               focusedNode->transform.width,
+                               focusedNode->transform.height);
+
+    XFillRectangle(display, root, DefaultGC(display, 0), focusedNode->transform.x-1, focusedNode->transform.y-1, focusedNode->transform.width+1, 1);
+    XFillRectangle(display, root, DefaultGC(display, 0), focusedNode->transform.x-1, focusedNode->transform.y-1, 1, focusedNode->transform.height+1);
+    XFillRectangle(display, root, DefaultGC(display, 0), focusedNode->transform.x+focusedNode->transform.width, focusedNode->transform.y-1, 1, focusedNode->transform.height+1);
+    XFillRectangle(display, root, DefaultGC(display, 0), focusedNode->transform.x, focusedNode->transform.y+focusedNode->transform.height, focusedNode->transform.width+1,1);
+
+    printf("Terminate: draw border\n");
 }
 
 void changeFocus(int step) {
@@ -127,6 +159,7 @@ void changeFocus(int step) {
     }
 
     focusWindow(newFocus->window);
+    drawBorder(newFocus);
     printf("Terminate: change focus\n");
 }
 
