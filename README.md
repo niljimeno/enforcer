@@ -6,7 +6,7 @@ inspired by
 
 ![img](thumbnail.png)
 
-> NCMPCPP, Blue Revolver and Kakoune running under Enforcer.
+> NCMPCPP, Blue Revolver and Kakoune running under Enforcer
 
 ## State:
 Usable, but still not recommended.
@@ -22,6 +22,7 @@ Floating windows are not supported for the most part.
 - `Mod-j / Mod-k`: change focus
 - `Mod-qwertyuio`: change workspace
 - `Mod-123456789`: change the focused window's workspace
+- `Mod-m / Mod-s`: enable/disable monocle mode
 
 ## Testing instructions
 Run `make init` to open a Xephyr environment,
@@ -34,7 +35,7 @@ to change the background.
 ## Todo:
 - [x] Shift+workspaceKey to move node
 - [/] Handle map/unmap/destroy requests *globally* to avoid leftovers
-- [ ] Fullscreen mode (monocle)
+- [x] Fullscreen mode (monocle)
 - [ ] Properly handle floating and popups (they often appear cut)
 
 ###  Wishlist:
