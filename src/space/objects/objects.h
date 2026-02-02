@@ -1,0 +1,24 @@
+struct Transform {
+    int x;
+    int y;
+    int width;
+    int height;
+};
+
+struct Node {
+    Window window;
+    struct Node* next;
+    bool isFloating;
+    bool isAlive; // if it's about to get closed
+    bool isVisible;
+    struct Transform transform;
+};
+
+struct Workspace {
+    struct Workspace* next;
+    struct Node* node;
+    int tag;
+};
+
+struct Workspace *workspace;
+int currentWorkspaceIndex = 0;

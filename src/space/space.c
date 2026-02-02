@@ -1,6 +1,11 @@
 #include "windows.c"
-#include "manager.c"
-#include "scheme.c"
+#include "objects/objects.c"
+#include "scheme/scheme.c"
+
+void setUpWorkspaces() {
+    for (int i=0; i<9; i++)
+        createWorkspace();
+}
 
 struct Node* getLastValid() {
     struct Workspace* ws = getCurrentWorkspace();
@@ -14,12 +19,6 @@ struct Node* getLastValid() {
     }
 
     return lastValid;
-}
-
-/* Changes focus for the last window in the workspace */
-void restoreFocus(struct Node* lastValid) {
-    if (lastValid != NULL)
-        focusWindow(lastValid->window);
 }
 
 /* todo! this breaks when emacs quits. something is in the way */

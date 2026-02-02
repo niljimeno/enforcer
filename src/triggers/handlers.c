@@ -61,7 +61,7 @@ void handleKeyPress(XEvent *ev) {
 /* before mapping the window */
 void handleMapRequest(XEvent *ev) {
     Window w = ev->xmaprequest.window;
-    if (nodeExists(w)) return;
+    if (getNode(w) != NULL) return;
 
     struct WindowData winData = createWindow(w);
     if (winData.shouldFloat) {

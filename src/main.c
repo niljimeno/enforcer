@@ -17,7 +17,7 @@ Window root;
 
 /* import modules */
 #include "data/data.c"
-#include "workspaces/workspaces.c"
+#include "space/space.c"
 #include "triggers/triggers.c"
 
 #include "test.c"

@@ -68,7 +68,6 @@ struct WindowData initialiseWindow(Window w) {
                 types[i] == _NET_WM_WINDOW_TYPE_DOCK ||
                 types[i] == _NET_WM_WINDOW_TYPE_TOOLTIP ||
                 types[i] == _NET_WM_WINDOW_TYPE_NOTIFICATION) {
-                printf("is internal\n");
                 winData.shouldFloat = true;
                 break;
             }
@@ -120,16 +119,13 @@ struct WindowData initialiseWindow(Window w) {
     }
 
     */
-    printf("Terminate: initialise window\n");
     return winData;
 }
 
 Window getCurrentWindow() {
-    printf("Initiate: get current window\n");
     Window w;
     int revert;
     XGetInputFocus(display, &w, &revert);
-    printf("Terminate: get current window\n");
     return w;
 }
 
