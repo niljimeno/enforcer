@@ -5,7 +5,8 @@ void drawBorder(struct Node* focusedNode) {
     struct Node* node = getCurrentWorkspace()->node;
 
     while (node) {
-        XSetWindowBorderWidth(display, focusedNode->window, 1);
+        XSetWindowBorderWidth(display, focusedNode->window, monocleMode ? 0 : 1);
+
         if (node == focusedNode) {
             XSetWindowBorder(display, node->window, colorBorderSelected);
         } else {

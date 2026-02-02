@@ -1,9 +1,13 @@
+Bool eligibleForResize(struct Node* node) {
+    return (!(node->isFloating) && node->isAlive);
+}
+
 int countWorkspaceWindows(struct Workspace* ws) {
     struct Node* node = ws->node;
     int windowCount = 0;
 
     while (node) {
-        if (!(node->isFloating) && node->isAlive && node->isVisible)
+        if (eligibleForResize(node))
             ++windowCount;
 
         node = node->next;
@@ -35,7 +39,7 @@ void resizeWindows() {
 
     int i = 0;
     while (node) {
-        if (node->isFloating || !(node->isAlive) || !(node->isVisible)) {
+        if (!eligibleForResize(node)) {
             node = node->next;
             continue;
         }
@@ -44,6 +48,13 @@ void resizeWindows() {
         node->transform.y = gap;
         node->transform.width = csize-gap;
         node->transform.height = rsize-gap;
+
+        if (monocleMode) {
+            node->transform.x = 0;
+            node->transform.y = 0;
+            node->transform.width = width;
+            node->transform.height = height;
+        }
 
         resizeWindow(node->window,
                      node->transform.x,

@@ -21,6 +21,8 @@ void loadTriggers() {
         XK_C,
         XK_J,
         XK_K,
+        XK_M,
+        XK_S,
         XK_Return,
         XK_Shift_L
     };

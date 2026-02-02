@@ -55,6 +55,14 @@ void handleKeyPress(XEvent *ev) {
         changeWorkspace(7);
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("o"))) {
         changeWorkspace(8);
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("m"))) {
+        printf("monocle\n");
+        monocleMode = true;
+        restoreWorkspace();
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("s"))) {
+        printf("not-monocle\n");
+        monocleMode = false;
+        restoreWorkspace();
     }
 }
 
