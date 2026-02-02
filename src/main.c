@@ -11,18 +11,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* values and general use */
-#include "data/data.c"
-
 /* global values */
 Display* display;
-GC gc;
 Window root;
 
-/* moving parts */
+/* import modules */
+#include "data/data.c"
 #include "workspaces/workspaces.c"
 #include "triggers/triggers.c"
-#include "error.c"
+
 #include "test.c"
 
 /* set running WM name to Enforcer */
@@ -33,19 +30,22 @@ void setProgramName() {
     XChangeProperty(display, check, _NET_NAME, UTF8, 8, PropModeReplace, (unsigned char *)"Enforcer", 8);
 }
 
+int errorHandler(Display* _, XErrorEvent* ev) {
+	return 0;
+}
+
 int setup() {
     XInitThreads();
+
     if(!(display = XOpenDisplay(0x0))) return 1;
     root = DefaultRootWindow(display);
-    gc = XCreateGC(display, root, 0, NULL);
-    XSetForeground(display, gc, 0xFFFFFF);
 
     setWindowTypes(display);
     setProgramName();
     loadTriggers();
     setUpWorkspaces();
-    XSetErrorHandler(errorHandler);
 
+    XSetErrorHandler(errorHandler);
     return 0;
 }
 
@@ -64,13 +64,8 @@ int main(int argc, char* args[])
 
     XEvent ev;
     while (true) {
-        printf("before XNextEvent\n");
         XNextEvent(display, &ev);
-        printf("got event: %d\n", ev.type);
-
-        // XNextEvent(display, &ev);
-        if (ev.type >= 0 && ev.type < LASTEvent) {
+        if (ev.type >= 0 && ev.type < LASTEvent)
             eventTable[ev.type](&ev);
-        }
     }
 }

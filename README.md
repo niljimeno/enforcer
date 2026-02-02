@@ -1,7 +1,6 @@
 # Enforcer
 Attempt at making a window manager,
 inspired by
-[SXWM](https://github.com/uint23/sxwm),
 [Vox-WM](https://github.com/DerjenigeUberMensch/vox-wm) and
 [Ratpoison](https://github.com/RatPoison-dev/RatPoison).
 

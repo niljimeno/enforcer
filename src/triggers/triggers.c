@@ -1,68 +1,36 @@
 #include "process.c"
 #include "handlers.c"
 
-/* run initial scripts */
-void onLoad() {
-    sh("./scripts/init.sh");
+void grab(KeySym key) {
+    XGrabKey(display, XKeysymToKeycode(display, key), modkey,
+            root, True, GrabModeAsync, GrabModeAsync);
 }
 
 void loadTriggers() {
-    /* bind key presses */
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("q")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("w")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("e")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("r")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("t")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("y")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("u")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("i")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("o")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
+    KeySym keys[] = {
+        XK_Q,
+        XK_W,
+        XK_E,
+        XK_R,
+        XK_T,
+        XK_Y,
+        XK_U,
+        XK_I,
+        XK_O,
+        XK_P,
+        XK_C,
+        XK_J,
+        XK_K,
+        XK_Return,
+        XK_Shift_L
+    };
 
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("!")), modkey,
+    /* grab keys */
+    for (int i=0; i<(sizeof(keys)/sizeof(KeySym)); i++) {
+        XGrabKey(display, XKeysymToKeycode(display, keys[i]), modkey,
             root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("@")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("#")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("$")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("%")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("^")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
+    }
 
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("!")), modkey | ShiftMask,
-            root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("@")), modkey | ShiftMask,
-            root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("#")), modkey | ShiftMask,
-            root, True, GrabModeAsync, GrabModeAsync);
-
-
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("p")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("c")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("j")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("k")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-
-
-    XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("Return")), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
-            XGrabKey(display, XKeysymToKeycode(display, XK_Shift_L), modkey,
-            root, True, GrabModeAsync, GrabModeAsync);
     XSelectInput(display, root, SubstructureRedirectMask | SubstructureNotifyMask);
 
     /* fill the event table with dummies (nil) */
@@ -76,5 +44,4 @@ void loadTriggers() {
     eventTable[MapNotify] = handleMapNotify;
     eventTable[UnmapNotify] = handleUnmapNotify;
     eventTable[DestroyNotify] = handleDestroyNotify;
-    onLoad();
 }

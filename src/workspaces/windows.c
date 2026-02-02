@@ -8,11 +8,7 @@ void resizeWindow(Window win, int x, int y, int w, int h) {
 }
 
 void closeWindow(Window w) {
-    printf("Initiate: close window\n");
-    if (w == 0) {
-        printf("Terminate: close window (null)\n");
-        return;
-    }
+    if (w == 0) return;
 
     Atom *protocols;
     int n_protocols;
@@ -30,7 +26,6 @@ void closeWindow(Window w) {
                 ev.xclient.data.l[1] = CurrentTime;
                 XSendEvent(display, w, False, NoEventMask, &ev);
                 XFree(protocols);
-                printf("Terminate: close window (normal)\n");
                 return;
             }
         }
@@ -40,13 +35,10 @@ void closeWindow(Window w) {
     }
 
     XKillClient(display, w);
-    printf("Terminate: close window (forced)\n");
 }
 
 
 struct WindowData initialiseWindow(Window w) {
-    printf("Initiate: initialise window\n");
-
     struct WindowData winData;
     winData.shouldFloat = false;
 
@@ -63,7 +55,6 @@ struct WindowData initialiseWindow(Window w) {
                 XFree(types);
                 XMapWindow(display, w);
                 winData.shouldFloat = true;
-                printf("Terminate: initialise window\n");
                 return winData;
             }
 

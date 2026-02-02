@@ -3,16 +3,12 @@ EventHandler eventTable[LASTEvent];
 void dummy(XEvent *ev) {}
 
 void handleKeyPress(XEvent *ev) {
-    printf("Initiate: handle keypress\n");
     KeyCode code = ev->xkey.keycode;
 
-    printf("Keycode is %d\n", code);
-    printf("Exclam Keycode is %d\n", XKeysymToKeycode(display, XStringToKeysym("!")));
-
-    if (code == XKeysymToKeycode(display, XStringToKeysym("Return"))) {
-        spawnDaemon("st");
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("c")) && ev->xkey.state & ShiftMask) {
+    if (code == XKeysymToKeycode(display, XStringToKeysym("c")) && ev->xkey.state & ShiftMask) {
         spawnDaemon("pkill -f xinit");
+    } else if (code == XKeysymToKeycode(display, XStringToKeysym("Return"))) {
+        spawnDaemon("st");
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("p"))) {
         sh("dmenu_run");
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("c"))) {
@@ -60,13 +56,10 @@ void handleKeyPress(XEvent *ev) {
     } else if (code == XKeysymToKeycode(display, XStringToKeysym("o"))) {
         changeWorkspace(8);
     }
-
-    printf("Terminate: handle keypress\n");
 }
 
 /* before mapping the window */
 void handleMapRequest(XEvent *ev) {
-    printf("Initiate: handle map request\n");
     Window w = ev->xmaprequest.window;
     if (nodeExists(w)) return;
 
@@ -80,41 +73,28 @@ void handleMapRequest(XEvent *ev) {
     XMapWindow(display, w);
     focusWindow(w);
     drawBorder(getNode(w));
-    printf("Terminate: handle map request\n");
 }
 
 /* after mapping the window */
 void handleMapNotify(XEvent *ev) {
     struct Node* node = getNode(ev->xmaprequest.window);
     if (node)
-        node->visible = true;
+        node->isVisible = true;
 }
 
 /* after unmapping the window */
 void handleUnmapNotify(XEvent *ev) {
-    /*
-     * unfortunately this activates when changing workspace
-
-    Window w = ev->xmaprequest.window;
-    if (!nodeExistsInWorkspace(w, getCurrentWorkspace()))
-        removeNode(w);
-    */
     struct Node* node = getNode(ev->xmaprequest.window);
     if (node)
-        node->visible = false;
+        node->isVisible = false;
 }
 
 void handleDestroyNotify(XEvent *ev) {
-    printf("Initiate: handle destroy notify\n");
     Window w = ev->xdestroywindow.window;
 
     removeNode(w);
     restoreWorkspace();
 
-    if (getCurrentWorkspace()->node == NULL) {
-        printf("Set input focus -- handleDestroyNotify");
+    if (getCurrentWorkspace()->node == NULL)
         XSetInputFocus(display, root, RevertToPointerRoot, CurrentTime);
-    }
-
-    printf("Terminate: handle destroy notify\n");
 }

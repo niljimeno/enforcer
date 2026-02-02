@@ -8,7 +8,7 @@ struct Node* getLastValid() {
     struct Node* lastValid = NULL;
 
     while (lastNode) {
-        if (lastNode->isAlive && lastNode->visible)
+        if (lastNode->isAlive && lastNode->isVisible)
             lastValid = lastNode;
         lastNode = lastNode->next;
     }
@@ -18,23 +18,12 @@ struct Node* getLastValid() {
 
 /* Changes focus for the last window in the workspace */
 void restoreFocus(struct Node* lastValid) {
-    printf("Initiate: restore focus\n");
-
-    if (lastValid != NULL) {
-        printf("Focusable window found\n");
+    if (lastValid != NULL)
         focusWindow(lastValid->window);
-    } else {
-        printf("No windows found here.\n");
-    }
-
-    printf("Terminate: restore focus\n");
 }
 
 /* todo! this breaks when emacs quits. something is in the way */
 void restoreWorkspace() {
-    printf("Initiate: restore workspace\n");
-    // if (getCurrentWorkspace()->node) {
-
     struct Node* lastValid = getLastValid();
 
     restoreFocus(lastValid);
@@ -42,23 +31,17 @@ void restoreWorkspace() {
     resizeWindows();
 
     drawBorder(lastValid);
-
-    // }
-    printf("Terminate: restore workspace\n");
 }
 
 void closeFocusedWindow() {
-    printf("Initiate: close focused window\n");
     Window w = getCurrentWindow();
     closeWindow(w);
     restoreWorkspace();
-    printf("Terminate: close focused window\n");
 }
 
 void changeWorkspace(int n) {
     if (currentWorkspaceIndex == n) return;
 
-    printf("Initiate: Changing workspace\n");
     struct Workspace* ws = getCurrentWorkspace();
     struct Node* node = ws->node;
 
@@ -81,11 +64,9 @@ void changeWorkspace(int n) {
     }
 
     restoreWorkspace();
-    printf("Terminate: Changing workspace\n");
 }
 
 void moveToWorkspace(int n) {
-    printf("Initiate: Move to workspace\n");
     if (currentWorkspaceIndex == n) return;
 
     Window w = getCurrentWindow();
@@ -117,6 +98,4 @@ void moveToWorkspace(int n) {
 
     lastNode->next = newNode;
     restoreWorkspace();
-
-    printf("Terminate: Move to workspace\n");
 }

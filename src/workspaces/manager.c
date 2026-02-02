@@ -10,7 +10,7 @@ struct Node {
     struct Node* next;
     bool isFloating;
     bool isAlive; // if it's about to get closed
-    bool visible;
+    bool isVisible;
     struct Transform transform;
 };
 
@@ -24,16 +24,11 @@ struct Workspace *workspace;
 int currentWorkspaceIndex = 0;
 
 struct Workspace* getCurrentWorkspace() {
-    printf("Initialise: get current workspace\n");
     struct Workspace* lastWS = workspace;
-
-    printf("%p\n", (void *)lastWS);
 
     for (int i=0; i<currentWorkspaceIndex; i++)
         lastWS = lastWS->next;
 
-    printf("Tag: %d\n", lastWS->tag);
-    printf("Terminate: get current workspace\n");
     return lastWS;
 }
 
@@ -46,7 +41,6 @@ void createWorkspace() {
     instance->next = NULL;
 
     if (lastWS==NULL) {
-        printf("making the world a better place\n");
         workspace = instance;
         return;
     }
@@ -73,9 +67,7 @@ struct WindowData createWindow(Window w) {
     instance->isFloating = winData.shouldFloat;
     instance->isAlive = true;
     instance->next = NULL;
-    instance->visible = true;
-
-    printf("should float %b\n", instance->isFloating);
+    instance->isVisible = true;
 
     if (currentWS->node == NULL) {
         currentWS->node = instance;
@@ -93,7 +85,6 @@ struct WindowData createWindow(Window w) {
 
 /* remove Node (not window) */
 void removeNode(Window w) {
-    printf("Initialise: Remove node\n");
     struct Workspace* ws = workspace;
     struct Node* currentNode;
     struct Node* previousNode;
@@ -104,11 +95,9 @@ void removeNode(Window w) {
         previousNode = NULL;
 
         while (currentNode) {
-            printf("Search: node\n");
             nextNode = currentNode->next;
 
             if (currentNode->window == w) {
-                printf("== REMOVING NODE ==\n");
                 currentNode->isAlive = false;
 
                 if (previousNode == NULL) {
@@ -171,15 +160,6 @@ struct Node* getNode(Window w) {
 }
 
 void setUpWorkspaces() {
-    createWorkspace();
-    createWorkspace();
-    createWorkspace();
-    createWorkspace();
-    createWorkspace();
-    createWorkspace();
-    createWorkspace();
-    createWorkspace();
-    createWorkspace();
-    createWorkspace();
-    createWorkspace();
+    for (int i=0; i<9; i++)
+        createWorkspace();
 }
