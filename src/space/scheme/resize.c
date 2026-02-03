@@ -19,8 +19,8 @@ int countWorkspaceWindows(struct Workspace* ws) {
 /* apply resizing to all windows in the workspace */
 void resizeWindows() {
     int screen = DefaultScreen(display);
-    int width = DisplayWidth(display, screen)-gap;
-    int height = DisplayHeight(display, screen)-gap;
+    int width = DisplayWidth(display, screen);
+    int height = DisplayHeight(display, screen);
 
     struct Workspace* ws = getCurrentWorkspace();
     struct Node* node = ws->node;
@@ -32,8 +32,8 @@ void resizeWindows() {
     int columns = windowCount;
     int rows = 1;
 
-    int csize = width/columns;
-    int rsize = height/rows;
+    int csize = (width-gap)/columns;
+    int rsize = (height-gap)/rows;
 
     node = ws->node;
 
