@@ -3,63 +3,63 @@ EventHandler eventTable[LASTEvent];
 void dummy(XEvent *ev) {}
 
 void handleKeyPress(XEvent *ev) {
-    KeyCode code = ev->xkey.keycode;
+    KeySym key = XLookupKeysym(&ev->xkey, 0);
 
-    if (code == XKeysymToKeycode(display, XStringToKeysym("c")) && ev->xkey.state & ShiftMask) {
+    if ((key == XK_C) && ev->xkey.state & ShiftMask) {
         spawnDaemon("pkill -f xinit");
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("Return"))) {
-        spawnDaemon("st");
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("p"))) {
+    } else if (key == XK_Return) {
+        spawnDaemon(terminal);
+    } else if (key == XK_p) {
         sh("dmenu_run");
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("c"))) {
+    } else if (key == XK_c) {
         closeFocusedWindow();
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("j"))) {
+    } else if (key == XK_j) {
         changeFocus(+1);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("k"))) {
+    } else if (key == XK_k) {
         changeFocus(-1);
 
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("1"))) {
+    } else if (key == XK_1) {
         moveToWorkspace(0);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("2"))) {
+    } else if (key == XK_2) {
         moveToWorkspace(1);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("3"))) {
+    } else if (key == XK_3) {
         moveToWorkspace(2);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("4"))) {
+    } else if (key == XK_4) {
         moveToWorkspace(3);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("5"))) {
+    } else if (key == XK_5) {
         moveToWorkspace(4);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("6"))) {
+    } else if (key == XK_6) {
         moveToWorkspace(5);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("7"))) {
+    } else if (key == XK_7) {
         moveToWorkspace(6);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("8"))) {
+    } else if (key == XK_8) {
         moveToWorkspace(7);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("9"))) {
+    } else if (key == XK_9) {
         moveToWorkspace(8);
 
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("q"))) {
+    } else if (key == XK_q) {
         changeWorkspace(0);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("w"))) {
+    } else if (key == XK_w) {
         changeWorkspace(1);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("e"))) {
+    } else if (key == XK_e) {
         changeWorkspace(2);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("r"))) {
+    } else if (key == XK_r) {
         changeWorkspace(3);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("t"))) {
+    } else if (key == XK_t) {
         changeWorkspace(4);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("y"))) {
+    } else if (key == XK_y) {
         changeWorkspace(5);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("u"))) {
+    } else if (key == XK_u) {
         changeWorkspace(6);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("i"))) {
+    } else if (key == XK_i) {
         changeWorkspace(7);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("o"))) {
+    } else if (key == XK_o) {
         changeWorkspace(8);
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("m"))) {
+    } else if (key == XK_m) {
         printf("monocle\n");
         monocleMode = true;
         restoreWorkspace();
-    } else if (code == XKeysymToKeycode(display, XStringToKeysym("s"))) {
+    } else if (key == XK_s) {
         printf("not-monocle\n");
         monocleMode = false;
         restoreWorkspace();
