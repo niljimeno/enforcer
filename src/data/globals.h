@@ -1,0 +1,2 @@
+Display* display;
+Window root;

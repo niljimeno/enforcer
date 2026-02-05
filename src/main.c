@@ -11,11 +11,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* global values */
-Display* display;
-Window root;
-
-/* import modules */
 #include "data/data.c"
 #include "space/space.c"
 #include "triggers/triggers.c"
