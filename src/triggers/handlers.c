@@ -19,23 +19,23 @@ void handleKeyPress(XEvent *ev) {
         changeFocus(-1);
 
     } else if (key == XK_1) {
-        moveToWorkspace(0);
+        moveToWorkspace(focusedNode, 0);
     } else if (key == XK_2) {
-        moveToWorkspace(1);
+        moveToWorkspace(focusedNode, 1);
     } else if (key == XK_3) {
-        moveToWorkspace(2);
+        moveToWorkspace(focusedNode, 2);
     } else if (key == XK_4) {
-        moveToWorkspace(3);
+        moveToWorkspace(focusedNode, 3);
     } else if (key == XK_5) {
-        moveToWorkspace(4);
+        moveToWorkspace(focusedNode, 4);
     } else if (key == XK_6) {
-        moveToWorkspace(5);
+        moveToWorkspace(focusedNode, 5);
     } else if (key == XK_7) {
-        moveToWorkspace(6);
+        moveToWorkspace(focusedNode, 6);
     } else if (key == XK_8) {
-        moveToWorkspace(7);
+        moveToWorkspace(focusedNode, 7);
     } else if (key == XK_9) {
-        moveToWorkspace(8);
+        moveToWorkspace(focusedNode, 8);
 
     } else if (key == XK_q) {
         changeWorkspace(0);
@@ -79,8 +79,7 @@ void handleMapRequest(XEvent *ev) {
 
     resizeWindows();
     XMapWindow(display, w);
-    focusWindow(w);
-    drawBorder(getNode(w));
+    setFocus(getNode(w));
 }
 
 /* after mapping the window */
@@ -99,7 +98,7 @@ void handleUnmapNotify(XEvent *ev) {
 
 void handleDestroyNotify(XEvent *ev) {
     Window w = ev->xdestroywindow.window;
-    removeNode(w);
+    removeNode(getNode(w));
     restoreWorkspace();
 
     if (getCurrentWorkspace()->node == NULL)

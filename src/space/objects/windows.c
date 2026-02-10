@@ -59,7 +59,7 @@ struct WindowData createWindow(Window w) {
 }
 
 /* remove Node (not window) */
-void removeNode(Window w) {
+void removeNode(struct Node* target) {
     struct Workspace* ws = workspace;
     struct Node* currentNode;
     struct Node* previousNode;
@@ -72,7 +72,7 @@ void removeNode(Window w) {
         while (currentNode) {
             nextNode = currentNode->next;
 
-            if (currentNode->window == w) {
+            if (currentNode == target) {
                 currentNode->isAlive = false;
 
                 if (previousNode == NULL) {

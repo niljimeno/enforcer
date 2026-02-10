@@ -22,3 +22,4 @@ struct Workspace {
 
 struct Workspace *workspace;
 int currentWorkspaceIndex = 0;
+struct Node* focusedNode;

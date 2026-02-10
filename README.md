@@ -34,7 +34,7 @@ to change the background.
 
 ## Todo:
 - [x] Shift+workspaceKey to move node
-- [/] Handle map/unmap/destroy requests *globally* to avoid leftovers
+- [x] Handle map/unmap/destroy requests *globally* to avoid leftovers
 - [x] Fullscreen mode (monocle)
 - [ ] Properly handle floating and popups (they often appear cut)
 

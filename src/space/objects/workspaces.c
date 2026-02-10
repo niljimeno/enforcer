@@ -43,6 +43,10 @@ void printWorkspaceInformation() {
             printf("- Next: %ld\n", node->next->window);
         else
             printf("- Next: ----\n");
+
+        if (node == focusedNode) {
+            printf("-= FOCUSED =-\n");
+        }
         printf("\n");
         node = node->next;
     }

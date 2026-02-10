@@ -65,11 +65,9 @@ void changeWorkspace(int n) {
     restoreWorkspace();
 }
 
-void moveToWorkspace(int n) {
+void moveToWorkspace(struct Node* target, int n) {
     if (currentWorkspaceIndex == n) return;
 
-    Window w = getCurrentWindow();
-    struct Node* target = getNode(w);
     if (target == NULL || target->isAlive == false) return;
 
     XUnmapWindow(display, target->window);
@@ -77,7 +75,7 @@ void moveToWorkspace(int n) {
     struct Node* newNode = malloc(sizeof(struct Node));
     *newNode = *target;
 
-    removeNode(w);
+    removeNode(target);
 
     struct Workspace *lastWS = workspace;
     struct Node *lastNode;
