@@ -13,7 +13,7 @@ struct Node* getLastValid() {
     struct Node* lastValid = NULL;
 
     while (lastNode) {
-        if (lastNode->isAlive && lastNode->isVisible )
+        if (isValid(lastNode))
             lastValid = lastNode;
         lastNode = lastNode->next;
     }

@@ -56,7 +56,6 @@ void changeFocus(int step) {
     focusWindow(newFocus->window);
     drawBorder(newFocus);
 }
-
 /* Changes focus for the last window in the workspace */
 void restoreFocus(struct Node* lastValid) {
     if (lastValid != NULL) {

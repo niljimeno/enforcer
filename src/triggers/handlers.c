@@ -5,7 +5,7 @@ void dummy(XEvent *ev) {}
 void handleKeyPress(XEvent *ev) {
     KeySym key = XLookupKeysym(&ev->xkey, 0);
 
-    if ((key == XK_C) && ev->xkey.state & ShiftMask) {
+    if ((key == XK_c) && ev->xkey.state & ShiftMask) {
         spawnDaemon("pkill -f xinit");
     } else if (key == XK_Return) {
         spawnDaemon(terminal);
