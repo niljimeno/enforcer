@@ -29,3 +29,21 @@ void createWorkspace() {
 
     lastWS->next = instance;
 }
+
+void printWorkspaceInformation() {
+    struct Workspace* ws = getCurrentWorkspace();
+    struct Node* node = ws->node;
+
+    printf("-- Printing workspace data --\n");
+    while (node) {
+        printf("== Node %ld ==\n", node->window);
+        printf("- Alive: %d\n", node->isAlive);
+        printf("- Visible: %d\n", node->isVisible);
+        if (node->next != NULL)
+            printf("- Next: %ld\n", node->next->window);
+        else
+            printf("- Next: ----\n");
+        printf("\n");
+        node = node->next;
+    }
+}

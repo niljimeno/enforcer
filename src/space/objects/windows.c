@@ -17,6 +17,19 @@ struct Node* getNode(Window w) {
     return NULL;
 }
 
+struct Node* getLocalNode(Window w) {
+    struct Workspace* ws = getCurrentWorkspace();
+    struct Node* node = ws->node;
+
+    while (node) {
+        if (node->window == w)
+            return node;
+        node = node->next;
+    }
+
+    return NULL;
+}
+
 /* Initialise window with its correspondent node */
 struct WindowData createWindow(Window w) {
     struct Workspace* currentWS = getCurrentWorkspace();

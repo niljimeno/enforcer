@@ -56,13 +56,13 @@ void handleKeyPress(XEvent *ev) {
     } else if (key == XK_o) {
         changeWorkspace(8);
     } else if (key == XK_m) {
-        printf("monocle\n");
         monocleMode = true;
         restoreWorkspace();
     } else if (key == XK_s) {
-        printf("not-monocle\n");
         monocleMode = false;
         restoreWorkspace();
+    } else if (key == XK_h) {
+        printWorkspaceInformation();
     }
 }
 
@@ -85,7 +85,7 @@ void handleMapRequest(XEvent *ev) {
 
 /* after mapping the window */
 void handleMapNotify(XEvent *ev) {
-    struct Node* node = getNode(ev->xmaprequest.window);
+    struct Node* node = getLocalNode(ev->xmaprequest.window);
     if (node)
         node->isVisible = true;
 }
@@ -99,7 +99,6 @@ void handleUnmapNotify(XEvent *ev) {
 
 void handleDestroyNotify(XEvent *ev) {
     Window w = ev->xdestroywindow.window;
-
     removeNode(w);
     restoreWorkspace();
 

@@ -1,49 +1,55 @@
+bool isValid(struct Node* current) {
+    return (current && current->isAlive && current->isVisible);
+}
+
+struct Node* getPrevious(struct Node* current, struct Node* final) {
+    if (current == NULL) {
+        current = getCurrentWorkspace()->node;
+    }
+
+    if (current == final) {
+        return NULL;
+    }
+
+    struct Node* next = getPrevious(current->next, final);
+    return isValid(next) ? next : current;
+}
+
+struct Node* getNext(struct Node* current, struct Node* final) {
+    if (current == NULL) {
+        current = getCurrentWorkspace()->node;
+    }
+
+    if (current == final) {
+        return NULL;
+    }
+
+    return isValid(current) ? current : getNext(current->next, final);
+}
+
 void changeFocus(int step) {
     Window currentWindow = getCurrentWindow();
 
     struct Workspace* ws = getCurrentWorkspace();
+    struct Node* currentNode = getLocalNode(currentWindow);
     struct Node* lastNode = ws->node;
-    struct Node* lastValid = NULL;
     struct Node* newFocus = NULL;
 
-    if (lastNode == NULL) return;
-    while (lastNode) {
-        if (!(lastNode->isAlive) || !(lastNode->isVisible)) {
-            lastNode = lastNode->next;
-            continue;
-        }
-        if (lastNode->window == currentWindow) {
-            if (step == -1) {
-                if (lastValid == NULL) {
-                    while (lastNode != NULL) {
-                        if (lastNode->isAlive && lastNode->isVisible) {
-                            lastValid = lastNode;
-                        }
-                        lastNode = lastNode->next;
-                    }
-                    newFocus = lastValid;
-                } else {
-                    newFocus = lastValid;
-                }
-            } else if (step == +1) {
-                if (lastNode->next == NULL) {
-                    newFocus = ws->node;
-                } else {
-                    newFocus = lastNode->next;
-                }
+    if (!currentNode) {
+        lastNode = ws->node;
+        while (lastNode) {
+            if (isValid(lastNode)) {
+                newFocus = lastNode;
             }
-
-            break;
+            lastNode = lastNode->next;
         }
-
-        if (lastNode->isAlive && lastNode->isVisible) {
-            lastValid = lastNode;
-        }
-
-        lastNode = lastNode->next;
+    } else if (step == +1) {
+        newFocus = getNext(currentNode->next, currentNode);
+    } else if (step == -1) {
+        newFocus = getPrevious(currentNode->next, currentNode);
     }
 
-    if (!(newFocus) || !(newFocus->isAlive) || !(newFocus->isVisible)) {
+    if (!isValid(newFocus)) {
         return;
     }
 
@@ -53,8 +59,7 @@ void changeFocus(int step) {
 
 /* Changes focus for the last window in the workspace */
 void restoreFocus(struct Node* lastValid) {
-    if (lastValid != NULL)
+    if (lastValid != NULL) {
         focusWindow(lastValid->window);
+    }
 }
-
-
