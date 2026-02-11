@@ -1,8 +1,7 @@
 # Enforcer
 Attempt at making a window manager,
-inspired by
-[Vox-WM](https://github.com/DerjenigeUberMensch/vox-wm) and
-[Ratpoison](https://github.com/RatPoison-dev/RatPoison).
+inspired by the works of
+[Vox-WM](https://github.com/DerjenigeUberMensch/vox-wm).
 
 ![img](thumbnail.png)
 

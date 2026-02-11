@@ -1,11 +1,16 @@
+bool isValid(struct Node* node) {
+    return (node && node->isAlive/* && node->isVisible*/);
+}
+
 void setFocus(struct Node* focus) {
+    if (!(isValid(focus))) return;
+    if (focusedNode) {
+        getCurrentWorkspace()->previous = focusedNode;
+    }
+
     focusedNode = focus;
     focusWindow(focus->window);
     drawBorder(focus);
-}
-
-bool isValid(struct Node* node) {
-    return (node && node->isAlive/* && node->isVisible*/);
 }
 
 struct Node* getPrevious(struct Node* current, struct Node* final) {
@@ -39,7 +44,6 @@ void changeFocus(int step) {
     struct Node* newFocus = NULL;
 
     if (!focusedNode) {
-        printf("No focused node\n");
         lastNode = ws->node;
         while (lastNode) {
             if (isValid(lastNode)) {
@@ -58,11 +62,4 @@ void changeFocus(int step) {
     }
 
     setFocus(newFocus);
-}
-
-/* Changes focus for the last window in the workspace */
-void restoreFocus(struct Node* lastValid) {
-    if (lastValid != NULL) {
-        setFocus(lastValid);
-    }
 }

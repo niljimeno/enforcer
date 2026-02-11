@@ -17,6 +17,7 @@ struct Node {
 struct Workspace {
     struct Workspace* next;
     struct Node* node;
+    struct Node* previous;
     int tag;
 };
 

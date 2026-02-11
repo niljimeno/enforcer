@@ -23,13 +23,17 @@ struct Node* getLastValid() {
 
 /* todo! this breaks when emacs quits. something is in the way */
 void restoreWorkspace() {
-    struct Node* lastValid = getLastValid();
+    struct Workspace* ws = getCurrentWorkspace();
+    struct Node* target;
+    if (ws->previous) {
+        target = ws->previous;
+    } else {
+        target = getLastValid();
+    }
 
-    restoreFocus(lastValid);
+    setFocus(target);
     XSync(display, False);
     resizeWindows();
-
-    drawBorder(lastValid);
 }
 
 void closeFocusedWindow() {
@@ -43,6 +47,8 @@ void changeWorkspace(int n) {
 
     struct Workspace* ws = getCurrentWorkspace();
     struct Node* node = ws->node;
+
+    ws->previous = focusedNode;
 
     while (node != NULL) {
         if (node->isAlive)

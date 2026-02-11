@@ -14,6 +14,7 @@ void createWorkspace() {
     instance->node = 0;
     instance->tag = 1;
     instance->next = NULL;
+    instance->previous = NULL;
 
     if (lastWS==NULL) {
         workspace = instance;

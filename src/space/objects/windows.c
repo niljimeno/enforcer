@@ -65,7 +65,15 @@ void removeNode(struct Node* target) {
     struct Node* previousNode;
     struct Node* nextNode;
 
+    if (focusedNode == target) {
+        focusedNode = NULL;
+    }
+
     while (ws) {
+        if (ws->previous == target) {
+            ws->previous = NULL;
+        }
+
         currentNode = ws->node;
         previousNode = NULL;
 
