@@ -49,6 +49,7 @@ void changeWorkspace(int n) {
     struct Node* node = ws->node;
 
     ws->previous = focusedNode;
+    focusedNode = NULL;
 
     while (node != NULL) {
         if (node->isAlive)
