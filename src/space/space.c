@@ -24,8 +24,11 @@ struct Node* getLastValid() {
 /* todo! this breaks when emacs quits. something is in the way */
 void restoreWorkspace() {
     struct Workspace* ws = getCurrentWorkspace();
+
     struct Node* target;
-    if (ws->previous) {
+    if (focusedNode) {
+        target = focusedNode;
+    } else if (ws->previous) {
         target = ws->previous;
     } else {
         target = getLastValid();
