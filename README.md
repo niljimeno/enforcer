@@ -1,6 +1,6 @@
 # Enforcer
 Attempt at making a window manager,
-inspired by the works of
+inspired by
 [Vox-WM](https://github.com/DerjenigeUberMensch/vox-wm).
 
 ![img](thumbnail.png)
@@ -11,7 +11,9 @@ inspired by the works of
 Usable, but still not recommended.
 It's a low-quality DWM skeleton.
 
-Floating windows are not supported for the most part.
+- Floating windows that self-resize are not supported.
+- A lot of fixed-size windows are treated as dynamically sized.
+- Firefox duplicates itself due to unhandled x11 protocols
 
 ## Usage
 - `Mod-enter`: open a new terminal (st)

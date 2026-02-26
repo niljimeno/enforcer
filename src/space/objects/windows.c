@@ -80,7 +80,7 @@ void removeNode(struct Node* target) {
         while (currentNode) {
             nextNode = currentNode->next;
 
-            if (currentNode == target) {
+            if (currentNode->window == target->window) {
                 currentNode->isAlive = false;
 
                 if (previousNode == NULL) {
