@@ -39,6 +39,11 @@ void restoreWorkspace() {
     resizeWindows();
 }
 
+Window getFocusedWindow() {
+    if (focusedNode == NULL) return 0;
+    return focusedNode->window;
+}
+
 void closeFocusedWindow() {
     Window w = getCurrentWindow();
     closeWindow(w);
