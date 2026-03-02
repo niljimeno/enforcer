@@ -98,9 +98,10 @@ void handleUnmapNotify(XEvent *ev) {
 
 void handleDestroyNotify(XEvent *ev) {
     Window w = ev->xdestroywindow.window;
-    struct Node* n;
-    while (n = getNode(w)) {
+    struct Node* n = getNode(w);
+    while (n) {
         removeNode(n);
+        n = getNode(w);
     }
 
     restoreWorkspace();

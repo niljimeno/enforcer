@@ -89,6 +89,7 @@ void moveToWorkspace(struct Node* target, int n) {
 
     struct Node* newNode = malloc(sizeof(struct Node));
     *newNode = *target;
+    newNode->next = NULL;
 
     removeNode(target);
 
