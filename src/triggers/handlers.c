@@ -72,12 +72,10 @@ void handleMapRequest(XEvent *ev) {
     if (getNode(w) != NULL) return;
 
     struct WindowData winData = createWindow(w);
-    if (winData.shouldFloat) {
-        XMapWindow(display, w);
-        return;
-    }
 
-    resizeWindows();
+    if (!winData.shouldFloat)
+        resizeWindows();
+
     XMapWindow(display, w);
     setFocus(getNode(w));
 }
