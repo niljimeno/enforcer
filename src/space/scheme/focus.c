@@ -7,7 +7,7 @@ bool isSemiValid(struct Node* node) {
 }
 
 void setFocus(struct Node* focus) {
-    if (!(isSemiValid(focus))) return;
+    if (!(isValid(focus))) return;
     if (focusedNode) {
         getCurrentWorkspace()->previous = focusedNode;
     }

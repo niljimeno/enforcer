@@ -88,10 +88,15 @@ void handleMapNotify(XEvent *ev) {
     node->isMapped = true;
     node->isVisible = true;
 
-    if (node->isTransitioning)
+    if (node->isTransitioning) {
         node->isTransitioning = false;
-    else
+        if (!XPending(display)) {
+            updateVisibility();
+            restoreWorkspace();
+        }
+    } else {
         restoreWorkspace();
+    }
 }
 
 /* after unmapping the window */
@@ -102,10 +107,8 @@ void handleUnmapNotify(XEvent *ev) {
     node->isMapped = false;
 
     if (node->isTransitioning) {
-        printf("Unmap transitioning\n");
         node->isTransitioning = false;
     } else {
-        printf("Normal unmap\n");
         node->isVisible = false;
         restoreWorkspace();
     }

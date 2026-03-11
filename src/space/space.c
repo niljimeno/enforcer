@@ -28,7 +28,7 @@ void restoreWorkspace() {
     struct Node* target;
     if (focusedNode && isValid(focusedNode)) {
         target = focusedNode;
-    } else if (ws->previous && (isValid(ws->previous) || changingWorkspaces)) {
+    } else if (ws->previous && isValid(ws->previous)) {
         target = ws->previous;
     } else {
         target = getLastValid();
@@ -61,7 +61,6 @@ void controlledMap(struct Node* node, int (*f)(Display*, Window)) {
 
 void changeWorkspace(int n) {
     if (currentWorkspaceIndex == n) return;
-    changingWorkspaces = true;
 
     struct Workspace* ws = getCurrentWorkspace();
     struct Node* node = ws->node;
@@ -83,6 +82,8 @@ void changeWorkspace(int n) {
         node = node->next;
     }
 
+    XSync(display, false);
+    updateVisibility();
     restoreWorkspace();
 }
 
@@ -114,7 +115,6 @@ void moveToWorkspace(struct Node* target, int n) {
     } else {
         lastWS->node = newNode;
     }
-
 
     restoreWorkspace();
 }
