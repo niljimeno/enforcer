@@ -1,9 +1,13 @@
 bool isValid(struct Node* node) {
-    return (node && node->isAlive/* && node->isVisible*/);
+    return (node && node->isAlive && node->isVisible);
+}
+
+bool isSemiValid(struct Node* node) {
+    return (node && node->isAlive);
 }
 
 void setFocus(struct Node* focus) {
-    if (!(isValid(focus))) return;
+    if (!(isSemiValid(focus))) return;
     if (focusedNode) {
         getCurrentWorkspace()->previous = focusedNode;
     }
@@ -62,4 +66,13 @@ void changeFocus(int step) {
     }
 
     setFocus(newFocus);
+}
+
+void restoreFocus() {
+    if (focusedNode) return;
+
+    struct Workspace* ws = getCurrentWorkspace();
+    if (ws->node == NULL) return;
+
+    setFocus(ws->node);
 }

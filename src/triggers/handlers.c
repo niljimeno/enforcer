@@ -83,20 +83,38 @@ void handleMapRequest(XEvent *ev) {
 /* after mapping the window */
 void handleMapNotify(XEvent *ev) {
     struct Node* node = getLocalNode(ev->xmaprequest.window);
-    if (node)
-        node->isVisible = true;
+    if (!node) return;
+
+    node->isMapped = true;
+    node->isVisible = true;
+
+    if (node->isTransitioning)
+        node->isTransitioning = false;
+    else
+        restoreWorkspace();
 }
 
 /* after unmapping the window */
 void handleUnmapNotify(XEvent *ev) {
     struct Node* node = getNode(ev->xmaprequest.window);
-    if (node)
+    if (!node) return;
+
+    node->isMapped = false;
+
+    if (node->isTransitioning) {
+        printf("Unmap transitioning\n");
+        node->isTransitioning = false;
+    } else {
+        printf("Normal unmap\n");
         node->isVisible = false;
+        restoreWorkspace();
+    }
 }
 
 void handleDestroyNotify(XEvent *ev) {
     Window w = ev->xdestroywindow.window;
     struct Node* n = getNode(w);
+
     while (n) {
         removeNode(n);
         n = getNode(w);

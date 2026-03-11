@@ -1,5 +1,5 @@
 struct Node* getNode(Window w) {
-    struct Workspace* ws = getCurrentWorkspace();
+    struct Workspace* ws = workspace;
     struct Node* node;
 
     while (ws) {
@@ -43,6 +43,8 @@ struct WindowData createWindow(Window w) {
     instance->isAlive = true;
     instance->next = NULL;
     instance->isVisible = true;
+    instance->isNew = true;
+    instance->isTransitioning = true;
 
     if (currentWS->node == NULL) {
         currentWS->node = instance;
@@ -98,5 +100,13 @@ void removeNode(struct Node* target) {
         }
 
         ws = ws->next;
+    }
+}
+
+void updateVisibility() {
+    struct Node* node = getCurrentWorkspace()->node;
+    while (node) {
+        node->isVisible = node->isMapped;
+        node = node->next;
     }
 }

@@ -62,5 +62,9 @@ int main(int argc, char* args[])
         XNextEvent(display, &ev);
         if (ev.type >= 0 && ev.type < LASTEvent)
             eventTable[ev.type](&ev);
+        restoreState();
+        updateVisibility();
+        resizeWindows();
+        restoreFocus();
     }
 }

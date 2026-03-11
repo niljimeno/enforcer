@@ -26,9 +26,9 @@ void restoreWorkspace() {
     struct Workspace* ws = getCurrentWorkspace();
 
     struct Node* target;
-    if (focusedNode) {
+    if (focusedNode && isValid(focusedNode)) {
         target = focusedNode;
-    } else if (ws->previous) {
+    } else if (ws->previous && (isValid(ws->previous) || changingWorkspaces)) {
         target = ws->previous;
     } else {
         target = getLastValid();
@@ -50,8 +50,18 @@ void closeFocusedWindow() {
     restoreWorkspace();
 }
 
+/* calls a map function (f) while changing internal values
+ * to prevent default behaviour */
+void controlledMap(struct Node* node, int (*f)(Display*, Window)) {
+    if (node->isAlive) {
+        node->isTransitioning = true;
+        f(display, node->window);
+    }
+}
+
 void changeWorkspace(int n) {
     if (currentWorkspaceIndex == n) return;
+    changingWorkspaces = true;
 
     struct Workspace* ws = getCurrentWorkspace();
     struct Node* node = ws->node;
@@ -60,9 +70,7 @@ void changeWorkspace(int n) {
     focusedNode = NULL;
 
     while (node != NULL) {
-        if (node->isAlive)
-            XUnmapWindow(display, node->window);
-
+        controlledMap(node, XUnmapWindow);
         node = node->next;
     }
 
@@ -71,9 +79,7 @@ void changeWorkspace(int n) {
     node = ws->node;
 
     while (node != NULL) {
-        if (node->isAlive)
-            XMapWindow(display, node->window);
-
+        controlledMap(node, XMapWindow);
         node = node->next;
     }
 
@@ -82,7 +88,6 @@ void changeWorkspace(int n) {
 
 void moveToWorkspace(struct Node* target, int n) {
     if (currentWorkspaceIndex == n) return;
-
     if (target == NULL || target->isAlive == false) return;
 
     XUnmapWindow(display, target->window);
@@ -90,6 +95,7 @@ void moveToWorkspace(struct Node* target, int n) {
     struct Node* newNode = malloc(sizeof(struct Node));
     *newNode = *target;
     newNode->next = NULL;
+    newNode->isVisible = true;
 
     removeNode(target);
 
@@ -100,15 +106,15 @@ void moveToWorkspace(struct Node* target, int n) {
         lastWS = lastWS->next;
 
     lastNode = lastWS->node;
-    if (lastNode == NULL) {
+    if (lastNode) {
+        while (lastNode->next != NULL)
+            lastNode = lastNode->next;
+
+        lastNode->next = newNode;
+    } else {
         lastWS->node = newNode;
-        restoreWorkspace();
-        return;
     }
 
-    while (lastNode->next != NULL)
-        lastNode = lastNode->next;
 
-    lastNode->next = newNode;
     restoreWorkspace();
 }

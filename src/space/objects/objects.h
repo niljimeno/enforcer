@@ -11,6 +11,9 @@ struct Node {
     bool isFloating;
     bool isAlive; // if it's about to get closed
     bool isVisible;
+    bool isMapped;
+    bool isNew;
+    bool isTransitioning;
     struct Transform transform;
 };
 

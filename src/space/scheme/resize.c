@@ -1,5 +1,5 @@
 Bool eligibleForResize(struct Node* node) {
-    return (!(node->isFloating) && node->isAlive);
+    return (/*!(node->isFloating) &&*/ node->isAlive && node->isVisible);
 }
 
 int countWorkspaceWindows(struct Workspace* ws) {
@@ -27,6 +27,7 @@ void resizeWindows() {
     if (node == NULL) return;
 
     int windowCount = countWorkspaceWindows(ws);
+    printf("Resizing for %d windows\n", windowCount);
     if (windowCount == 0) return;
 
     int columns = windowCount;
