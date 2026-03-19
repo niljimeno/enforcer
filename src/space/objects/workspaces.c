@@ -36,6 +36,12 @@ void printWorkspaceInformation() {
     struct Node* node = ws->node;
 
     printf("-- Printing workspace data --\n");
+
+    if (ws->previous)
+        printf("- Previous window: %ld\n\n", ws->previous->window);
+    else
+        printf("- Previous window: NA\n\n");
+
     while (node) {
         printf("== Node %ld ==\n", node->window);
         printf("- Alive: %d\n", node->isAlive);
