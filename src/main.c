@@ -12,7 +12,7 @@
 #include <stdlib.h>
 
 #include "data/data.c"
-#include "space/space.c"
+#include "space/space.h"
 #include "triggers/triggers.c"
 
 #include "test.c"

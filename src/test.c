@@ -9,10 +9,5 @@ union B{
 };
 
 void test() {
-    union A a;
-    a.x = 5;
-    printf("%d\n", a.x);
-    setUpWorkspaces();
-
-    printf("go %d!\n", 2/3);
+    printf("go %ld!\n", _NET_WM_WINDOW_TYPE_MENU);
 }

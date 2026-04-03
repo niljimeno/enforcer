@@ -1,7 +1,3 @@
-#include "windows.c"
-#include "objects/objects.c"
-#include "scheme/scheme.c"
-
 void setUpWorkspaces() {
     for (int i=0; i<9; i++)
         createWorkspace();
@@ -37,6 +33,7 @@ void restoreWorkspace() {
     setFocus(target);
     XSync(display, False);
     resizeWindows();
+    drawBorder(focusedNode);
 }
 
 Window getFocusedWindow() {
@@ -47,6 +44,12 @@ Window getFocusedWindow() {
 void closeFocusedWindow() {
     Window w = getCurrentWindow();
     closeWindow(w);
+    restoreWorkspace();
+}
+
+void killFocusedWindow() {
+    Window w = getCurrentWindow();
+    killWindow(w);
     restoreWorkspace();
 }
 
@@ -117,4 +120,46 @@ void moveToWorkspace(struct Node* target, int n) {
     }
 
     restoreWorkspace();
+}
+
+void moveInWorkspace(struct Node* target, int direction) {
+    if (target == NULL || target->isAlive == false) return;
+
+    struct Workspace* ws = getCurrentWorkspace();
+    struct Node* node = ws->node;
+
+    struct Node* previous = NULL;
+    struct Node* previous2 = NULL;
+
+    while (node) {
+        if (node == target) {
+            if (direction == LEFT) {
+                if (!previous) return;
+
+                if (previous2)
+                    previous2->next = node;
+                else
+                    ws->node = node;
+
+                previous->next = node->next;
+                node->next = previous;
+
+            } else if (direction == RIGHT) {
+                struct Node* nextNode = node->next;
+                if (!nextNode) return;
+
+                node->next = nextNode->next;
+                nextNode->next = node;
+                if (previous) previous->next = nextNode;
+                else ws->node = nextNode;
+            }
+
+            resizeWindows();
+            return;
+        }
+
+        previous2 = previous;
+        previous = node;
+        node = node->next;
+    }
 }

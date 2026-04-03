@@ -7,6 +7,12 @@ void resizeWindow(Window win, int x, int y, int w, int h) {
     XMoveResizeWindow(display, win, x, y, w, h);
 }
 
+void killWindow(Window w) {
+    if (w == 0) return;
+
+    XKillClient(display, w);
+}
+
 void closeWindow(Window w) {
     if (w == 0) return;
 

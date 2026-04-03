@@ -24,6 +24,13 @@ void loadTriggers() {
         XK_M,
         XK_S,
         XK_H,
+        XK_D,
+
+        XK_Up,
+        XK_Down,
+        XK_Right,
+        XK_Left,
+
         XK_Return,
         XK_Shift_L
     };

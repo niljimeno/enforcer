@@ -63,6 +63,12 @@ void handleKeyPress(XEvent *ev) {
         restoreWorkspace();
     } else if (key == XK_h) {
         printWorkspaceInformation();
+    } else if (key == XK_d) {
+        killFocusedWindow();
+    } else if (key == XK_Right) {
+        moveInWorkspace(focusedNode, RIGHT);
+    } else if (key == XK_Left) {
+        moveInWorkspace(focusedNode, LEFT);
     }
 }
 
