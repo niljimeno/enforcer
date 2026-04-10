@@ -29,11 +29,18 @@ void resizeWindows() {
     int windowCount = countWorkspaceWindows(ws);
     if (windowCount == 0) return;
 
+    int g;
+    if (windowCount == 1) {
+        g = gap;
+    } else {
+        g = 1;
+    }
+
     int columns = windowCount;
     int rows = 1;
 
-    int csize = (width-gap)/columns;
-    int rsize = (height-gap)/rows;
+    int csize = (width-g)/columns;
+    int rsize = (height-g)/rows;
 
     node = ws->node;
 
@@ -44,10 +51,10 @@ void resizeWindows() {
             continue;
         }
 
-        node->transform.x = gap+(csize*i);
-        node->transform.y = gap;
-        node->transform.width = csize-gap;
-        node->transform.height = rsize-gap;
+        node->transform.x = g+(csize*i);
+        node->transform.y = g;
+        node->transform.width = csize-g*2;
+        node->transform.height = rsize-g*2;
 
         if (monocleMode) {
             node->transform.x = 0;
