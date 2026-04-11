@@ -136,7 +136,7 @@ Window getCurrentWindow() {
 }
 
 void focusWindow(Window w) {
-    // XRaiseWindow(display, w);
+    XRaiseWindow(display, w);
     XSetInputFocus(display,
                    w,
                    RevertToPointerRoot,
