@@ -30,31 +30,37 @@ void resizeWindows() {
     if (windowCount == 0) return;
 
     int g;
-    if (windowCount == 1) {
+    if (monocleMode) {
+        g = 0;
+    } else if (windowCount == 1) {
         g = gap;
     } else {
         g = 1;
-    }
+    };
 
     int columns = windowCount;
     int rows = 1;
+    // int columns = (windowCount > 1) ? 2 : 1;
+    // int rows = (1 + windowCount) / 2;
 
     int csize = (width-g)/columns;
     int rsize = (height-g)/rows;
 
     node = ws->node;
 
-    int i = 0;
+    int row = 0;
+    int col = 0;
+
     while (node) {
         if (!eligibleForResize(node)) {
             node = node->next;
             continue;
         }
 
-        node->transform.x = g+(csize*i);
-        node->transform.y = g;
-        node->transform.width = csize-g*2;
-        node->transform.height = rsize-g*2;
+        node->transform.x = csize*col;
+        node->transform.y = rsize*row;
+        node->transform.width = csize;
+        node->transform.height = rsize;
 
         if (monocleMode) {
             node->transform.x = 0;
@@ -63,15 +69,27 @@ void resizeWindows() {
             node->transform.height = height;
         }
 
+        int borderMultiplier = (g > 1) ? 1 : 2;
+
         resizeWindow(node->window,
-                     node->transform.x,
-                     node->transform.y,
-                     node->transform.width,
-                     node->transform.height);
+                     node->transform.x + g,
+                     node->transform.y + g,
+                     node->transform.width - g*borderMultiplier,
+                     node->transform.height - g*borderMultiplier);
 
 
         node = node->next;
-        ++i;
+
+        ++col;
+        // if (columns == col) {
+        //     col = 0;
+        //     ++row;
+
+        //     if (row == 1 && extra) {
+        //         printf("row %d\n", row);
+        //         ++col;
+        //     }
+        // }
     }
 
     XFlush(display);

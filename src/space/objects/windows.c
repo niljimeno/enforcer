@@ -31,7 +31,7 @@ struct Node* getLocalNode(Window w) {
 }
 
 /* Initialise window with its correspondent node */
-struct WindowData createWindow(Window w) {
+void createWindow(Window w) {
     struct Workspace* currentWS = getCurrentWorkspace();
     struct Node* lastNode;
 
@@ -48,7 +48,7 @@ struct WindowData createWindow(Window w) {
 
     if (currentWS->node == NULL) {
         currentWS->node = instance;
-        return winData;
+        return;
     }
 
     lastNode = currentWS->node;
@@ -57,7 +57,6 @@ struct WindowData createWindow(Window w) {
         lastNode = lastNode->next;
 
     lastNode->next = instance;
-    return winData;
 }
 
 /* remove Node (not window) */

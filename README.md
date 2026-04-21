@@ -1,7 +1,5 @@
 # Enforcer
-Attempt at making a window manager,
-inspired by
-[Vox-WM](https://github.com/DerjenigeUberMensch/vox-wm).
+Attempt at making a window manager
 
 ![img](thumbnail.png)
 
@@ -9,11 +7,9 @@ inspired by
 
 ## State:
 Usable, but still not recommended.
-It's a low-quality DWM skeleton.
+It's a low-quality, column-based DWM skeleton.
 
-- Floating windows that self-resize are not supported.
-- A lot of fixed-size windows are treated as dynamically sized.
-- Firefox duplicates itself due to unhandled x11 protocols
+Floating and statically sized windows are treated as resizeable.
 
 ## Usage
 - `Mod-enter`: open a new terminal (st)
@@ -37,13 +33,4 @@ to change the background.
 - [x] Shift+workspaceKey to move node
 - [x] Handle map/unmap/destroy requests *globally* to avoid leftovers
 - [x] Fullscreen mode (monocle)
-- [ ] Properly handle floating and popups (they often appear cut)
-
-###  Wishlist:
-- [ ] Create/remove workspaces and windows with no limits
-- [ ] Modify the amount of windows shown (like mod+i in dwm) and scroll windows horizontally (like ratpoison)
-- [ ] Global floating centered terminal (required)
-- [ ] Use hooks to set up custom program executions (like st and dmenu)
-- [ ] Non-immediate keybind execution like Ratpoison
-- [ ] Mod+Tab to open hacker screen (I still not know what to use it for)
-- [ ] UI elements + FZF-like search integration (like dmenu but with the looks of fzf, transparent and overlayed)
+- [/] Properly handle floating and popups (they often appear cut)

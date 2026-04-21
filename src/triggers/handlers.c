@@ -77,10 +77,7 @@ void handleMapRequest(XEvent *ev) {
     Window w = ev->xmaprequest.window;
     if (getNode(w) != NULL) return;
 
-    struct WindowData winData = createWindow(w);
-
-    if (!winData.shouldFloat)
-        resizeWindows();
+    createWindow(w);
 
     XMapWindow(display, w);
     setFocus(getNode(w));
@@ -128,8 +125,6 @@ void handleDestroyNotify(XEvent *ev) {
         removeNode(n);
         n = getNode(w);
     }
-
-    restoreWorkspace();
 
     if (getCurrentWorkspace()->node == NULL)
         XSetInputFocus(display, root, RevertToPointerRoot, CurrentTime);

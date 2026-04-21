@@ -44,7 +44,6 @@ Window getFocusedWindow() {
 void closeFocusedWindow() {
     Window w = getCurrentWindow();
     closeWindow(w);
-    restoreWorkspace();
 }
 
 void killFocusedWindow() {
@@ -86,7 +85,6 @@ void changeWorkspace(int n) {
     }
 
     XSync(display, false);
-    updateVisibility();
     restoreWorkspace();
 }
 
