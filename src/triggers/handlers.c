@@ -83,6 +83,10 @@ void handleMapRequest(XEvent *ev) {
     setFocus(getNode(w));
 }
 
+int isMapEvent(Display *dpy, XEvent *ev, char *arg) {
+    return (ev->type == MapNotify);
+}
+
 /* after mapping the window */
 void handleMapNotify(XEvent *ev) {
     struct Node* node = getLocalNode(ev->xmaprequest.window);
@@ -93,9 +97,11 @@ void handleMapNotify(XEvent *ev) {
 
     if (node->isTransitioning) {
         node->isTransitioning = false;
-        if (!XPending(display)) {
+        if (!XCheckIfEvent(display, ev, isMapEvent, NULL)) {
             updateVisibility();
             restoreWorkspace();
+        } else {
+            XPutBackEvent(display, ev);
         }
     } else {
         restoreWorkspace();
