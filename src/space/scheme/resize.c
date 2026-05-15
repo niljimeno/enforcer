@@ -38,18 +38,19 @@ void resizeWindows() {
         g = 1;
     };
 
-    int columns = windowCount;
-    int rows = 1;
+    int columns = windowCount > 1 ? 2 : 1;
+    int rows = windowCount > 2 ? windowCount - 1 : 1;
     // int columns = (windowCount > 1) ? 2 : 1;
     // int rows = (1 + windowCount) / 2;
 
     int csize = (width-g)/columns;
+    int hsize = height-g;
     int rsize = (height-g)/rows;
 
     node = ws->node;
 
-    int row = 0;
     int col = 0;
+    int row = 0;
 
     while (node) {
         if (!eligibleForResize(node)) {
@@ -57,10 +58,18 @@ void resizeWindows() {
             continue;
         }
 
-        node->transform.x = csize*col;
-        node->transform.y = rsize*row;
-        node->transform.width = csize;
-        node->transform.height = rsize;
+        if (col == 0) {
+            node->transform.x = csize*col;
+            node->transform.y = 0;
+            node->transform.width = csize;
+            node->transform.height = hsize;
+        } else {
+            node->transform.x = csize*col;
+            node->transform.y = rsize*row;
+            node->transform.width = csize;
+            node->transform.height = rsize;
+        }
+
 
         if (monocleMode) {
             node->transform.x = 0;
@@ -80,7 +89,11 @@ void resizeWindows() {
 
         node = node->next;
 
-        ++col;
+        if (col == 0) {
+            col = 1;
+        } else {
+            ++row;
+        }
         // if (columns == col) {
         //     col = 0;
         //     ++row;
