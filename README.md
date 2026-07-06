@@ -3,13 +3,10 @@ Attempt at making a window manager
 
 ![img](thumbnail.png)
 
-> NCMPCPP, Blue Revolver and Kakoune running under Enforcer
-
 ## State:
-Usable, but still not recommended.
-It's a low-quality, column-based DWM skeleton.
+Usable, but not configurable.
 
-Floating and statically sized windows are treated as resizeable.
+Floating and statically sized windows are treated the same as other windows.
 
 ## Usage
 - `Mod-enter`: open a new terminal (st)
