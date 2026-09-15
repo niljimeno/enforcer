@@ -82,7 +82,15 @@ void handleClientMessage(XEvent *ev) {
 /* before mapping the window */
 void handleMapRequest(XEvent *ev) {
     Window w = ev->xmaprequest.window;
-    if (getNode(w) != NULL) return;
+    struct Node* node = getNode(w);
+
+    if (node) {
+        if (!node->isMapped && getLocalNode(w)) {
+            node->isTransitioning = true;
+            XMapWindow(display, w);
+        }
+        return;
+    }
 
     createWindow(w);
 
@@ -90,13 +98,9 @@ void handleMapRequest(XEvent *ev) {
     setFocus(getNode(w));
 }
 
-int isMapEvent(Display *dpy, XEvent *ev, char *arg) {
-    return (ev->type == MapNotify);
-}
-
 /* after mapping the window */
 void handleMapNotify(XEvent *ev) {
-    struct Node* node = getLocalNode(ev->xmaprequest.window);
+    struct Node* node = getLocalNode(ev->xmap.window);
     if (!node) return;
 
     node->isMapped = true;
@@ -104,21 +108,15 @@ void handleMapNotify(XEvent *ev) {
 
     if (node->isTransitioning) {
         node->isTransitioning = false;
-        if (!XCheckIfEvent(display, ev, isMapEvent, NULL)) {
-            updateVisibility();
-            restoreWorkspace();
-        } else {
-            XPutBackEvent(display, ev);
-        }
-    } else {
-        restoreWorkspace();
     }
+    restoreWorkspace();
 }
 
 /* after unmapping the window */
 void handleUnmapNotify(XEvent *ev) {
-    struct Node* node = getNode(ev->xmaprequest.window);
+    struct Node* node = getNode(ev->xunmap.window);
     if (!node) return;
+    if (!node->isMapped) return;
 
     node->isMapped = false;
 

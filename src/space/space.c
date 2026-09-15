@@ -17,7 +17,6 @@ struct Node* getLastValid() {
     return lastValid;
 }
 
-/* todo! this breaks when emacs quits. something is in the way */
 void restoreWorkspace() {
     struct Workspace* ws = getCurrentWorkspace();
 
@@ -30,8 +29,14 @@ void restoreWorkspace() {
         target = getLastValid();
     }
 
+    if (isValid(target)) {
+        setFocus(target);
+    } else {
+        XSetInputFocus(display, root, RevertToPointerRoot, CurrentTime);
+    }
+    resizeWindows();
+
     setFocus(target);
-    XSync(display, False);
     resizeWindows();
     drawBorder(focusedNode);
 }
@@ -84,7 +89,6 @@ void changeWorkspace(int n) {
         node = node->next;
     }
 
-    XSync(display, false);
     restoreWorkspace();
 }
 

@@ -30,7 +30,7 @@ void setProgramName() {
 }
 
 int errorHandler(Display* _, XErrorEvent* ev) {
-	return 0;
+    return 0;
 }
 
 int setup() {

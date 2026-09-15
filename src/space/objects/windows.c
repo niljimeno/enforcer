@@ -101,12 +101,3 @@ void removeNode(struct Node* target) {
         ws = ws->next;
     }
 }
-
-void updateVisibility() {
-    printf("Update visibility\n");
-    struct Node* node = getCurrentWorkspace()->node;
-    while (node) {
-        node->isVisible = node->isMapped;
-        node = node->next;
-    }
-}
