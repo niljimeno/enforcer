@@ -54,4 +54,5 @@ void loadTriggers() {
     eventTable[MapNotify] = handleMapNotify;
     eventTable[UnmapNotify] = handleUnmapNotify;
     eventTable[DestroyNotify] = handleDestroyNotify;
+    eventTable[ClientMessage] = handleClientMessage;
 }

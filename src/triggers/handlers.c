@@ -72,6 +72,13 @@ void handleKeyPress(XEvent *ev) {
     }
 }
 
+void handleClientMessage(XEvent *ev) {
+    if (ev->xclient.message_type != _NET_ACTIVE_WINDOW) return;
+
+    struct Node* node = getLocalNode(ev->xclient.window);
+    if (node) setFocus(node);
+}
+
 /* before mapping the window */
 void handleMapRequest(XEvent *ev) {
     Window w = ev->xmaprequest.window;

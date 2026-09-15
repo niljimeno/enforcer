@@ -20,9 +20,13 @@
 /* set running WM name to Enforcer */
 void setProgramName() {
     Window check = XCreateSimpleWindow(display, root, 0, 0, 1, 1, 0, 0, 0);
+    Atom supported[] = { _NET_ACTIVE_WINDOW };
+
     XChangeProperty(display, root, _NET_SUPPORT, XA_WINDOW, 32, PropModeReplace, (unsigned char *)&check, 1);
     XChangeProperty(display, check, _NET_SUPPORT, XA_WINDOW, 32, PropModeReplace, (unsigned char *)&check, 1);
     XChangeProperty(display, check, _NET_NAME, UTF8, 8, PropModeReplace, (unsigned char *)"Enforcer", 8);
+    XChangeProperty(display, root, _NET_SUPPORTED, XA_ATOM, 32, PropModeReplace,
+                    (unsigned char *)supported, sizeof(supported) / sizeof(Atom));
 }
 
 int errorHandler(Display* _, XErrorEvent* ev) {
@@ -44,8 +48,7 @@ int setup() {
     return 0;
 }
 
-int main(int argc, char* args[])
-{
+int main(int argc, char* args[]) {
     if (argc > 1) {
         if (strcmp("test",args[1]) == 0) {
             test();

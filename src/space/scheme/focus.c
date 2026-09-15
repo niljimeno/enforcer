@@ -14,6 +14,8 @@ void setFocus(struct Node* focus) {
     }
 
     focusedNode = focus;
+    XChangeProperty(display, root, _NET_ACTIVE_WINDOW, XA_WINDOW, 32,
+                    PropModeReplace, (unsigned char *)&focus->window, 1);
     focusWindow(focus->window);
     drawBorder(focus);
 }
