@@ -10,6 +10,7 @@
 #include <strings.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/wait.h>
 
 #include "data/data.c"
 #include "space/space.h"
@@ -65,5 +66,6 @@ int main(int argc, char* args[]) {
         XNextEvent(display, &ev);
         if (ev.type >= 0 && ev.type < LASTEvent)
             eventTable[ev.type](&ev);
+        while (waitpid(-1, NULL, WNOHANG) > 0);
     }
 }
